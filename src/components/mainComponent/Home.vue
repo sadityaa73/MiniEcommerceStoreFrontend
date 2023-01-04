@@ -1,15 +1,15 @@
 <template>
   <div class="mainContainer">
-    <login />
+    <reset />
   </div>
 </template>
 <script>
-import login from "../userAuth/login.vue";
+import reset from "../userAuth/reset.vue";
 
 export default {
   name: "Home",
   components: {
-    login,
+    reset,
   },
   data() {
     return {};

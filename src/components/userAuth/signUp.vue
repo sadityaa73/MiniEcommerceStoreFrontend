@@ -1,7 +1,35 @@
 <template>
   <div class="loginContainer">
-    <div class="inputContainer">
-      <div class="box">02</div>
+    <div class="dynamicContainer">
+      <div class="inputContainer">
+        <div class="innerInput">
+          <input type="text" class="inputBox" placeholder="Firstname" />
+          <input type="text" class="inputBox" placeholder="Lastname" />
+          <input type="text" class="inputBox" placeholder="Mobile" />
+          <input type="text" class="inputBox" placeholder="Address" />
+          <input type="text" class="inputBox" placeholder="username" />
+          <input
+            type="password"
+            class="inputBox"
+            id="password"
+            placeholder="password"
+          />
+
+          <input
+            type="password"
+            class="inputBox"
+            id="password"
+            placeholder="Re-Enter Password"
+          />
+        </div>
+        <span
+          ><input type="checkBox" class="checkBox" @click="showPassword" />
+          ShowPassword</span
+        >
+        <div class="buttonContainer">
+          <button class="login">login</button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -13,12 +41,12 @@ export default {
     return {};
   },
   methods: {
-    check() {
-      var showPassword = document.getElementById("password");
-      if (showPassword.type === "password") {
-        showPassword.type = "text";
+    showPassword() {
+      var pass = document.getElementById("password");
+      if (pass.type === "password") {
+        pass.type = "text";
       } else {
-        showPassword.type = "password";
+        pass.type = "password";
       }
     },
   },
@@ -27,54 +55,44 @@ export default {
 <style scoped>
 .loginContainer {
   display: flex;
-  height: 50%;
-  width: 50%;
-  justify-content: center;
-}
-.inputContainer {
-  display: flex;
-  flex-direction: column;
-  border: 1px solid black;
-  border-radius: 12px;
-  width: 60%;
   justify-content: center;
   align-items: center;
+  width: 100%;
+  height: 100vh;
+  background: #d6dcec;
 }
-.inputCred {
-  width: 70%;
-  height: 10%;
-  border-radius: 5px;
-
-  margin-bottom: 14px;
-}
-.inputCred:hover {
-  border-top: 2px solid blue;
-  border-bottom: 2px solid blue;
-  border-left: 2px solid blue;
-  border-right: 2px solid blue;
-  box-shadow: 4px 15px 28px 4px #191616a3;
-}
-.check {
-  color: black;
-  margin-bottom: 40px;
-  font-size: 13px;
-  font-family: helvetica;
-}
-.loginBtnContainer {
+.dynamicContainer {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid black;
-  width: 27%;
-  height: 9%;
-  border-radius: 5px;
-  z-index: 1;
+  /* border: 1px solid; */
+  width: 45%;
+  height: 71%;
+  border-radius: 20px;
+  overflow: hidden;
 }
-.login {
-  width: 95%;
-  height: 93%;
+.dynamicContainer::before {
+  content: "";
+  border: 1px dotted;
+  position: absolute;
+  width: 0%;
+  height: 444px;
+  background-image: linear-gradient(red, green);
 }
-
+.dynamicContainer:hover::before {
+  content: "";
+  border: 1px dotted;
+  position: absolute;
+  width: 40%;
+  height: 250%;
+  background-image: linear-gradient(red, green);
+  animation: rotate 3.5s linear infinite;
+  box-shadow: 0px 14px 36px 11px grey;
+}
+.dynamicContainer:hover {
+  box-shadow: 0px 14px 36px 11px grey;
+}
 @keyframes rotate {
   0% {
     transform: rotate(0deg);
@@ -83,69 +101,74 @@ export default {
     transform: rotate(360deg);
   }
 }
-.mobileScreen {
-  display: none;
-}
-@media (max-width: 743px) {
-  .mobileScreen {
-    display: flex;
-    flex-direction: column;
-    border: 1px solid black;
-    border-radius: 12px;
-    width: 90%;
-    justify-content: center;
-    align-items: center;
-  }
-}
-@media (max-width: 472px) {
-  .mobileScreen {
-    display: flex;
-    flex-direction: column;
-    border: 1px solid black;
-    border-radius: 12px;
-    width: 100%;
-    justify-content: center;
-    align-items: center;
-  }
-  .check {
-    color: black;
-    margin-bottom: 40px;
-    font-size: 13px;
-    font-family: helvetica;
-  }
-}
-.box {
+.inputContainer {
   display: flex;
-  position: relative;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  border: 1px solid black;
-  width: 50%;
-  height: 50%;
-  overflow: hidden;
-  border-radius: 10px;
-}
-.box h2 {
-  position: relative;
+  width: 98%;
   z-index: 10;
-}
-
-.box::before {
-  content: "";
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  border: 1px solid;
-  background-image: linear-gradient(red, green);
-  animation: rotate-7df64ad4 2s linear infinite;
+  height: 98%;
   border-radius: 20px;
+  background: whitesmoke;
 }
-.box::after {
-  position: absolute;
-  content: "";
-  background: red;
-  border-radius: 10px;
-  inset: 4px;
-  border-radius: 10px;
+.innerInput {
+  width: 90%;
+  height: 81%;
+  overflow: auto;
+}
+.inputBox {
+  width: 85%;
+  height: 10%;
+  border-radius: 5px;
+  margin-top: 3%;
+  border: 1px solid black;
+}
+.inputBox:hover {
+  box-shadow: 0px 3px 4px 1px #dfa93d;
+  border: none;
+}
+.buttonContainer {
+  width: 25%;
+  height: 11%;
+  border-radius: 9px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+.login {
+  width: 70%;
+  height: 70%;
+  border-radius: 5px;
+  transition: all 0.2s linear;
+  border: 1px solid black;
+  font-size: 16px;
+  font-family: helvetica;
+}
+.login:hover {
+  width: 95%;
+  height: 95%;
+  color: white;
+  font-size: 18px;
+  font-family: helvetica;
+  background: blue;
+  box-shadow: 0px 12px 29px 0px grey;
+}
+.login:active {
+  color: white;
+  background: green;
+  transition: all -1s linear;
+}
+.formLink {
+  display: flex;
+  justify-content: space-around;
+  width: 60%;
+  font-size: 16px;
+  font-family: helvetica;
+  margin-top: 1%;
+}
+.forms {
+  margin: 0px;
 }
 </style>

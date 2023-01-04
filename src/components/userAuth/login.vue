@@ -58,7 +58,7 @@ export default {
   justify-content: center;
   align-items: center;
   /* border: 1px solid; */
-  width: 50%;
+  width: 40%;
   height: 50%;
   border-radius: 20px;
   overflow: hidden;
@@ -109,6 +109,10 @@ export default {
   border-radius: 5px;
   margin-bottom: 3%;
   border: 1px solid black;
+}
+.inputBox:hover {
+  box-shadow: 0px 3px 4px 1px #dfa93d;
+  border: none;
 }
 .buttonContainer {
   width: 25%;
