@@ -17,8 +17,8 @@
           <button class="login">login</button>
         </div>
         <div class="formLink">
-          <h5 class="forms">signup</h5>
-          <h5 class="forms">reset</h5>
+          <h5 class="forms" @click="signup">signup</h5>
+          <h5 class="forms" @click="reset">reset</h5>
         </div>
       </div>
     </div>
@@ -39,6 +39,16 @@ export default {
       } else {
         pass.type = "password";
       }
+    },
+    signup() {
+      this.$router.push({
+        path: "/signUp",
+      });
+    },
+    reset() {
+      this.$router.push({
+        path: "/reset",
+      });
     },
   },
 };
@@ -136,10 +146,11 @@ export default {
 .login:hover {
   width: 95%;
   height: 95%;
-  color: white;
+  color: black;
   font-size: 18px;
   font-family: helvetica;
-  background: blue;
+  background: #dfa93d;
+  border: none;
   box-shadow: 0px 12px 29px 0px grey;
 }
 .login:active {

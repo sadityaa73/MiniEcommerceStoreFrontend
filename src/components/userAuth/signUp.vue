@@ -2,6 +2,9 @@
   <div class="loginContainer">
     <div class="dynamicContainer">
       <div class="inputContainer">
+        <div class="cross" @click="close">
+          <img src="../../assets/close.png" alt="close" class="close" />
+        </div>
         <div class="innerInput">
           <input type="text" class="inputBox" placeholder="Firstname" />
           <input type="text" class="inputBox" placeholder="Lastname" />
@@ -18,7 +21,7 @@
           <input
             type="password"
             class="inputBox"
-            id="password"
+            id="newPassword"
             placeholder="Re-Enter Password"
           />
         </div>
@@ -27,7 +30,7 @@
           ShowPassword</span
         >
         <div class="buttonContainer">
-          <button class="login">login</button>
+          <button class="login">signup</button>
         </div>
       </div>
     </div>
@@ -43,11 +46,17 @@ export default {
   methods: {
     showPassword() {
       var pass = document.getElementById("password");
-      if (pass.type === "password") {
+      var newPass = document.getElementById("newPassword");
+      if (pass.type === "password" || newPass === "password") {
         pass.type = "text";
+        newPass.type = "text";
       } else {
         pass.type = "password";
+        newPass.type = "password";
       }
+    },
+    close() {
+      this.$router.push({ path: "/login" });
     },
   },
 };
@@ -60,6 +69,11 @@ export default {
   width: 100%;
   height: 100vh;
   background: #d6dcec;
+}
+.close {
+  width: 3%;
+  position: absolute;
+  margin-left: 41%;
 }
 .dynamicContainer {
   position: relative;
@@ -149,10 +163,11 @@ export default {
 .login:hover {
   width: 95%;
   height: 95%;
-  color: white;
+  color: black;
   font-size: 18px;
   font-family: helvetica;
-  background: blue;
+  background: #eebc1e;
+  border: none;
   box-shadow: 0px 12px 29px 0px grey;
 }
 .login:active {
