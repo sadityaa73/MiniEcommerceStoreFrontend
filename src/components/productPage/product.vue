@@ -1,53 +1,98 @@
 <template>
   <div class="productContainer">
+    <div class="banners">
+      <img src="../../assets/banner1.jpg" alt="" class="ban" />
+    </div>
     <div class="OcassionalDeals">
-      <div class="deals">
+      <div
+        class="deals"
+        v-for="(OcassionalDeals, index) in OcassionalDeals"
+        :key="index"
+      >
         <div class="productImg">
-          <img src="" alt="product" class="product" />
+          <img :src="OcassionalDeals.image" alt="product" class="product" />
         </div>
-        <h6 class="productInfo_name">name</h6>
-        <h6 class="productInfo_price">price and discount</h6>
+        <h6 class="productInfo_name">{{ OcassionalDeals.name }}</h6>
+        <h6 class="productInfo_price">{{ OcassionalDeals.price }}</h6>
         <!-- <h6 class="productInfo_rating">rating</h6> -->
       </div>
     </div>
     <div class="homeDeals">
-      <div class="deals">
+      <div class="deals" v-for="(homeDeals, index) in homeDeals" :key="index">
         <div class="productImg">
-          <img src="" alt="product" class="product" />
+          <img :src="homeDeals.image" alt="product" class="product" />
         </div>
-        <h6 class="productInfo_name">name</h6>
-        <h6 class="productInfo_price">price and discount</h6>
+        <h6 class="productInfo_name">{{ homeDeals.name }}</h6>
+        <h6 class="productInfo_price">{{ homeDeals.price }}</h6>
         <!-- <h6 class="productInfo_rating">rating</h6> -->
       </div>
     </div>
     <div class="groceryDeals">
-      <div class="deals">
+      <div
+        class="deals"
+        v-for="(groceryDeals, index) in groceryDeals"
+        :key="index"
+      >
         <div class="productImg">
-          <img src="" alt="product" class="product" />
+          <img :src="groceryDeals.image" alt="product" class="product" />
         </div>
-        <h6 class="productInfo_name">name</h6>
-        <h6 class="productInfo_price">price and discount</h6>
+        <h6 class="productInfo_name">{{ groceryDeals.name }}</h6>
+        <h6 class="productInfo_price">{{ groceryDeals.price }}</h6>
         <!-- <h6 class="productInfo_rating">rating</h6> -->
       </div>
     </div>
     <div class="studyDeals">
-      <div class="deals">
+      <div class="deals" v-for="(studyDeals, index) in studyDeals" :key="index">
         <div class="productImg">
-          <img src="" alt="product" class="product" />
+          <img :src="studyDeals.image" alt="product" class="product" />
         </div>
-        <h6 class="productInfo_name">name</h6>
-        <h6 class="productInfo_price">price and discount</h6>
+        <h6 class="productInfo_name">{{ studyDeals.name }}</h6>
+        <h6 class="productInfo_price">{{ studyDeals.price }}</h6>
         <!-- <h6 class="productInfo_rating">rating</h6> -->
       </div>
     </div>
   </div>
 </template>
 <script>
+import axios from "axios";
 export default {
   name: "product",
   components: {},
   data() {
-    return {};
+    return {
+      OcassionalDeals: [],
+      homeDeals: [],
+      groceryDeals: [],
+      studyDeals: [],
+    };
+  },
+  created() {
+    this.getProducts();
+    console.log(homeDeals);
+  },
+  methods: {
+    async getProducts() {
+      let OcassionalDeals = "OcassionalDeals";
+      let homeDeals = "homeDeals";
+      let groceryDeals = "groceryDeals";
+      let studyDeals = "studyDeals";
+      let firstResponse = await axios.get(
+        `http://localhost:4000/api/product/product/${OcassionalDeals}`
+      );
+      this.OcassionalDeals = firstResponse.data;
+      let secondResponse = await axios.get(
+        `http://localhost:4000/api/product/product/${homeDeals}`
+      );
+      this.homeDeals = secondResponse.data;
+      let thirdResponse = await axios.get(
+        `http://localhost:4000/api/product/product/${groceryDeals}`
+      );
+      this.groceryDeals = thirdResponse.data;
+      let fourthResponse = await axios.get(
+        `http://localhost:4000/api/product/product/${studyDeals}`
+      );
+      this.studyDeals = fourthResponse.data;
+    },
   },
 };
 </script>
@@ -57,39 +102,66 @@ export default {
   width: 98%;
   height: 100vh;
   margin: 1%;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.banners {
+  border: 1px solid;
+  width: 100%;
+  height: 30%;
+}
+.ban {
+  width: 100%;
+}
+.product {
+  width: 100%;
+  height: 100%;
 }
 .OcassionalDeals {
   width: 100%;
   height: 35%;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  flex-wrap: wrap;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 .homeDeals {
   width: 100%;
   height: 35%;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  flex-wrap: wrap;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 .groceryDeals {
   width: 100%;
   height: 35%;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  flex-wrap: wrap;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 .studyDeals {
   width: 100%;
   height: 35%;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  flex-wrap: wrap;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 .deals {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   /* border: 1px solid black; */
   width: 22%;
-  height: 95%;
+  height: 90%;
   align-items: center;
   background: whitesmoke;
   margin: 1%;

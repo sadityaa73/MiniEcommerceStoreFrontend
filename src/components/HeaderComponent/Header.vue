@@ -33,7 +33,7 @@
         <img src="../../assets/cart.png" alt="carts" class="cartsImage" />
       </div>
     </div>
-    <div class="items6">
+    <div class="items6" @click="admin">
       <div class="admin">
         <img src="../../assets/admin.png" alt="admin" class="adminImage" />
       </div>
@@ -56,6 +56,11 @@ export default {
     home() {
       this.$router.push({
         path: "/",
+      });
+    },
+    admin() {
+      this.$router.push({
+        path: "/adminstrator",
       });
     },
   },
