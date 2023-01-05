@@ -1,5 +1,6 @@
 <template>
   <div class="loginContainer">
+    <Header />
     <div class="dynamicContainer">
       <div class="inputContainer">
         <div class="cross" @click="close">
@@ -32,9 +33,10 @@
   </div>
 </template>
 <script>
+import Header from "../HeaderComponent/Header.vue";
 export default {
   name: "login",
-  components: {},
+  components: { Header },
   data() {
     return {};
   },
@@ -59,7 +61,7 @@ export default {
 <style scoped>
 .loginContainer {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
   width: 100%;
   height: 100vh;
@@ -80,9 +82,10 @@ export default {
   justify-content: center;
   align-items: center;
   /* border: 1px solid; */
-  width: 30%;
+  width: 40%;
   height: 50%;
   border-radius: 20px;
+  margin-top: 10%;
   overflow: hidden;
 }
 .dynamicContainer::before {
@@ -162,7 +165,7 @@ export default {
   color: black;
   font-size: 18px;
   font-family: helvetica;
-  background: #e8b34b;
+  background: #ffde3ade;
   border: none;
   box-shadow: 0px 12px 29px 0px grey;
 }

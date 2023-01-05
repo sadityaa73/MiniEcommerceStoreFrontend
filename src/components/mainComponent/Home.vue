@@ -1,27 +1,16 @@
 <template>
   <div class="mainContainer">
-    <reset />
+    <Landing />
   </div>
 </template>
 <script>
-import reset from "../userAuth/reset.vue";
-
+import Landing from "../landingPage/Landing.vue";
 export default {
   name: "Home",
-  components: {
-    reset,
-  },
+  components: { Landing },
   data() {
     return {};
   },
 };
 </script>
-<style scoped>
-.mainContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100vh;
-}
-</style>
+<style scoped></style>
