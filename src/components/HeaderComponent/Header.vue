@@ -33,6 +33,11 @@
         <img src="../../assets/cart.png" alt="carts" class="cartsImage" />
       </div>
     </div>
+    <div class="items6">
+      <div class="admin">
+        <img src="../../assets/admin.png" alt="admin" class="adminImage" />
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -173,6 +178,30 @@ export default {
   background-color: whitesmoke;
 }
 .cartsImage {
+  width: 80%;
+  height: 100%;
+}
+.items6 {
+  border: 1px solid;
+  width: 4%;
+  height: 80%;
+  display: flex;
+  justify-content: space-evenly;
+  background: whitesmoke;
+  border-radius: 5px;
+  align-items: center;
+}
+.items6:hover {
+  border: none;
+  box-shadow: 0px 4px 21px 3px black;
+}
+.admin {
+  width: 100%;
+  height: 100%;
+  border-radius: 7px;
+  background-color: whitesmoke;
+}
+.adminImage {
   width: 80%;
   height: 100%;
 }
