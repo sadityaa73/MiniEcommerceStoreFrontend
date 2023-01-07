@@ -8,6 +8,7 @@
         class="deals"
         v-for="(OcassionalDeals, index) in OcassionalDeals"
         :key="index"
+        @click="viewProduct(OcassionalDeals._id)"
       >
         <div class="productImg">
           <img :src="OcassionalDeals.image" alt="product" class="product" />
@@ -18,7 +19,12 @@
       </div>
     </div>
     <div class="homeDeals">
-      <div class="deals" v-for="(homeDeals, index) in homeDeals" :key="index">
+      <div
+        class="deals"
+        v-for="(homeDeals, index) in homeDeals"
+        :key="index"
+        @click="viewProduct(homeDeals._id)"
+      >
         <div class="productImg">
           <img :src="homeDeals.image" alt="product" class="product" />
         </div>
@@ -32,6 +38,7 @@
         class="deals"
         v-for="(groceryDeals, index) in groceryDeals"
         :key="index"
+        @click="viewProduct(groceryDeals._id)"
       >
         <div class="productImg">
           <img :src="groceryDeals.image" alt="product" class="product" />
@@ -42,7 +49,12 @@
       </div>
     </div>
     <div class="studyDeals">
-      <div class="deals" v-for="(studyDeals, index) in studyDeals" :key="index">
+      <div
+        class="deals"
+        v-for="(studyDeals, index) in studyDeals"
+        :key="index"
+        @click="viewProduct(studyDeals._id)"
+      >
         <div class="productImg">
           <img :src="studyDeals.image" alt="product" class="product" />
         </div>
@@ -68,7 +80,6 @@ export default {
   },
   created() {
     this.getProducts();
-    console.log(homeDeals);
   },
   methods: {
     async getProducts() {
@@ -93,10 +104,22 @@ export default {
       );
       this.studyDeals = fourthResponse.data;
     },
+    viewProduct(id) {
+      console.log(`printing id ${id}`);
+      this.$router.push({ path: `/viewProduct/${id}` });
+    },
   },
 };
 </script>
 <style scoped>
+.mainContainer {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+  background: #d6dcec;
+}
 .productContainer {
   border: 1px solid black;
   width: 98%;

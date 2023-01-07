@@ -6,6 +6,7 @@ import signUp from "../components/userAuth/signUp.vue"
 import reset from "../components/userAuth/reset.vue"
 import adminstrator from "../components/Admin/adminstrator.vue"
 import addProducts from "../components/Admin/addProducts.vue"
+import viewProduct from "../components/productPage/viewProduct.vue"
 Vue.use(VueRouter)
 
 const routes = [{
@@ -37,6 +38,11 @@ const routes = [{
         path: '/addproducts',
         name: 'addProducts',
         component: addProducts
+    },
+    {
+        path: `/viewProduct/:id`,
+        name: 'viewProduct',
+        component: viewProduct
     }
 ]
 
