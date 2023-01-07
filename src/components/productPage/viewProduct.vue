@@ -118,9 +118,9 @@ export default {
     viewProducts(id) {
       console.log(`printing id ${id}`);
       this.$router.push({ path: `/viewProduct/${id}` });
+      this.getProductInfo();
     },
     async addToCart(image_url, productName, productPrice, user_id) {
-      debugger;
       let post = {
         image: image_url,
         name: productName,
