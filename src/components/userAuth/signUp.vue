@@ -7,16 +7,37 @@
           <img src="../../assets/close.png" alt="close" class="close" />
         </div>
         <div class="innerInput">
-          <input type="text" class="inputBox" placeholder="Firstname" />
-          <input type="text" class="inputBox" placeholder="Lastname" />
-          <input type="text" class="inputBox" placeholder="Mobile" />
-          <input type="text" class="inputBox" placeholder="Address" />
-          <input type="text" class="inputBox" placeholder="username" />
+          <input
+            type="text"
+            class="inputBox"
+            placeholder="Firstname"
+            v-model="firstname"
+          />
+          <input
+            type="text"
+            class="inputBox"
+            placeholder="Lastname"
+            v-model="lastname"
+          />
+          <input
+            type="text"
+            class="inputBox"
+            placeholder="Mobile"
+            v-model="mobile"
+          />
+          <!-- <input type="text" class="inputBox" placeholder="Address" /> -->
+          <input
+            type="text"
+            class="inputBox"
+            placeholder="username"
+            v-model="username"
+          />
           <input
             type="password"
             class="inputBox"
             id="password"
             placeholder="password"
+            v-model="password"
           />
 
           <input
@@ -24,6 +45,7 @@
             class="inputBox"
             id="newPassword"
             placeholder="Re-Enter Password"
+            v-model="matchPassword"
           />
         </div>
         <span
@@ -31,7 +53,7 @@
           ShowPassword</span
         >
         <div class="buttonContainer">
-          <button class="login">signup</button>
+          <button class="login" @click="signup">signup</button>
         </div>
       </div>
     </div>
@@ -39,11 +61,19 @@
 </template>
 <script>
 import Header from "../HeaderComponent/Header.vue";
+import axios from "axios";
 export default {
   name: "login",
   components: { Header },
   data() {
-    return {};
+    return {
+      firstname: "",
+      lastname: "",
+      mobile: "",
+      username: "",
+      passowrd: "",
+      matchPassword: "",
+    };
   },
   methods: {
     showPassword() {
@@ -59,6 +89,26 @@ export default {
     },
     close() {
       this.$router.push({ path: "/login" });
+    },
+    async signup() {
+      if (this.password === this.matchPassword) {
+        let post = {
+          firstname: this.firstname,
+          lastname: this.lastname,
+          mobile: this.mobile,
+          username: this.username,
+          password: this.password,
+        };
+        let response = await axios.post(
+          "http://localhost:4000/api/signup/signup",
+          post
+        );
+        this.$router.push({
+          path: "/login",
+        });
+      } else {
+        return;
+      }
     },
   },
 };

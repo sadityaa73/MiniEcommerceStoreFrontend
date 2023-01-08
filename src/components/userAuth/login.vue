@@ -3,19 +3,25 @@
     <Header />
     <div class="dynamicContainer">
       <div class="inputContainer">
-        <input type="text" class="inputBox" placeholder="username" />
+        <input
+          type="text"
+          class="inputBox"
+          placeholder="username"
+          v-model="username"
+        />
         <input
           type="password"
           class="inputBox"
           id="password"
           placeholder="password"
+          v-model="password"
         />
         <span
           ><input type="checkBox" class="checkBox" @click="showPassword" />
           ShowPassword</span
         >
         <div class="buttonContainer">
-          <button class="login">login</button>
+          <button class="login" @click="login">login</button>
         </div>
         <div class="formLink">
           <h5 class="forms" @click="signup">signup</h5>
@@ -27,11 +33,15 @@
 </template>
 <script>
 import Header from "../HeaderComponent/Header.vue";
+import axios from "axios";
 export default {
   name: "login",
   components: { Header },
   data() {
-    return {};
+    return {
+      username: "",
+      password: "",
+    };
   },
   methods: {
     showPassword() {
@@ -51,6 +61,16 @@ export default {
       this.$router.push({
         path: "/reset",
       });
+    },
+    async login() {
+      let post = {
+        username: this.username,
+        password: this.password,
+      };
+      let response = await axios.post(
+        "http://localhost:4000/api/login/login",
+        post
+      );
     },
   },
 };

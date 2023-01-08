@@ -6,12 +6,18 @@
         <div class="cross" @click="close">
           <img src="../../assets/close.png" alt="close" class="close" />
         </div>
-        <input type="text" class="inputBox" placeholder="username" />
+        <input
+          type="text"
+          class="inputBox"
+          placeholder="username"
+          v-model="username"
+        />
         <input
           type="password"
           class="inputBox"
           id="password"
           placeholder="password"
+          v-model="password"
         />
 
         <input
@@ -19,6 +25,7 @@
           class="inputBox"
           id="newPassword"
           placeholder="Re-Enter Password"
+          v-model="matchPassword"
         />
 
         <span class="spanClass"
@@ -26,7 +33,7 @@
           ShowPassword</span
         >
         <div class="buttonContainer">
-          <button class="login">reset</button>
+          <button class="login" @click="reset">reset</button>
         </div>
       </div>
     </div>
@@ -34,11 +41,16 @@
 </template>
 <script>
 import Header from "../HeaderComponent/Header.vue";
+import axios from "axios";
 export default {
   name: "login",
   components: { Header },
   data() {
-    return {};
+    return {
+      username: "",
+      password: "",
+      matchPassword: "",
+    };
   },
   methods: {
     showPassword() {
@@ -54,6 +66,20 @@ export default {
     },
     close() {
       this.$router.push({ path: "/login" });
+    },
+    async reset() {
+      if (this.password === this.matchPassword) {
+        let username = this.username;
+        let post = {
+          password: this.password,
+        };
+        let response = await axios.patch(
+          `http://localhost:4000/api/signup/reset/${username}`,
+          post
+        );
+        let data = response.data;
+        this.$router.push({ path: "/login" });
+      }
     },
   },
 };
