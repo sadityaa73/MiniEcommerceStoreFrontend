@@ -23,7 +23,7 @@
         <img src="../../assets/signin.png" alt="signIn" class="signInImage" />
       </div>
     </div>
-    <div class="items4">
+    <div class="items4" @click="orders">
       <div class="orders">
         <img src="../../assets/orders.png" alt="orders" class="ordersImage" />
       </div>
@@ -66,6 +66,11 @@ export default {
     cart() {
       this.$router.push({
         path: "/cart",
+      });
+    },
+    orders() {
+      this.$router.push({
+        path: "/order",
       });
     },
   },

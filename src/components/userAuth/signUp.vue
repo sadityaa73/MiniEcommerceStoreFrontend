@@ -25,7 +25,7 @@
             placeholder="Mobile"
             v-model="mobile"
           />
-          <!-- <input type="text" class="inputBox" placeholder="Address" /> -->
+          <input type="text" class="inputBox" placeholder="Address" />
           <input
             type="text"
             class="inputBox"
@@ -70,6 +70,7 @@ export default {
       firstname: "",
       lastname: "",
       mobile: "",
+      address: "",
       username: "",
       passowrd: "",
       matchPassword: "",
@@ -96,6 +97,7 @@ export default {
           firstname: this.firstname,
           lastname: this.lastname,
           mobile: this.mobile,
+          address: this.address,
           username: this.username,
           password: this.password,
         };

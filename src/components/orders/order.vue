@@ -4,16 +4,22 @@
     <div class="innerContainer">
       <div class="cart">
         <div class="head">
-          <img src="../../assets/carts.png" alt="cart" class="cartIcon" />
-          <h2 class="cartText">cart</h2>
+          <img
+            src="../../assets/orderHistory.png"
+            alt="cart"
+            class="cartIcon"
+          />
+          <h2 class="cartText">Orders</h2>
         </div>
         <div class="itemsNotFound" v-if="cart.length === 0">
           <div class="icon">
-            <img src="../../assets/basket.png" alt="" class="itemNotFound" />
+            <img
+              src="../../assets/orderNotFound.png"
+              alt=""
+              class="itemNotFound"
+            />
           </div>
-          <h2 class="itemsnotfound">
-            Your cart is empty please add some items here !!
-          </h2>
+          <h2 class="itemsnotfound">you did not order anything yet !!</h2>
         </div>
         <div class="cartContainer" v-for="(cart, index) in cart" :key="index">
           <div class="imageContainer">
@@ -24,7 +30,7 @@
             <h2 class="info">{{ cart.price }}</h2>
             <div class="btns">
               <button @click="remove(cart._id)">remove</button>
-              <button @click="placeOrder">place order</button>
+              <button>place order</button>
             </div>
           </div>
         </div>
@@ -92,8 +98,10 @@ export default {
     async getCart() {
       let response = await axios.get("http://localhost:4000/api/cart/cart");
       this.cart = response.data;
+      console.log("printing cart details", this.cart);
     },
     async remove(product_id) {
+      console.log("printing product id", product_id);
       let post = { _id: product_id };
       let response = await axios.patch(
         "http://localhost:4000/api/cart/removeItems",
@@ -101,12 +109,6 @@ export default {
       );
       let data = response.data;
       this.getCart();
-    },
-    placeOrder() {
-      debugger;
-      this.$router.push({
-        path: "/placeOrder",
-      });
     },
   },
 };

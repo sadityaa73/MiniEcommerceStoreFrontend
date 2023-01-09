@@ -55,7 +55,9 @@
               {{ cart.price }}
             </h2>
             <div class="btns">
-              <button class="orderPlace" @click="buyNow">place order</button>
+              <button class="orderPlace" @click="placeOrder">
+                place order
+              </button>
               <button class="remove" @click="remove(cart._id)">
                 <img
                   src="../../assets/delete.png"
@@ -152,7 +154,9 @@ export default {
       let data = response.data;
       this.getCart();
     },
-    async buyNow() {},
+    placeOrder() {
+      this.$router.push({ path: "/placeOrder" });
+    },
   },
 };
 </script>
