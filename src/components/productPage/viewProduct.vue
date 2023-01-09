@@ -51,9 +51,11 @@
           </div>
           <div class="cartProductInfo">
             <h2 class="infoname">{{ cart.name }}</h2>
-            <h2 class="infoprice">{{ cart.price }}</h2>
+            <h2 class="infoprice">
+              {{ cart.price }}
+            </h2>
             <div class="btns">
-              <button class="orderPlace">place order</button>
+              <button class="orderPlace" @click="buyNow">place order</button>
               <button class="remove" @click="remove(cart._id)">
                 <img
                   src="../../assets/delete.png"
@@ -150,6 +152,7 @@ export default {
       let data = response.data;
       this.getCart();
     },
+    async buyNow() {},
   },
 };
 </script>
@@ -250,7 +253,6 @@ export default {
   height: 14%;
 }
 .itemsNotFound {
-  border: 1px solid;
   width: 97%;
   height: 100%;
   display: flex;
@@ -306,7 +308,7 @@ export default {
 }
 .infoname {
   margin: 0px;
-  font-size: 20px;
+  font-size: 17px;
   font-family: helvetica;
 }
 .infoprice {
@@ -372,7 +374,7 @@ export default {
 }
 .productInfo_name {
   margin: 0px;
-  font-size: 20px;
+  font-size: 12px;
   font-family: helvetica;
 }
 .productInfo_price {

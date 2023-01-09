@@ -28,7 +28,7 @@
         <img src="../../assets/orders.png" alt="orders" class="ordersImage" />
       </div>
     </div>
-    <div class="items5">
+    <div class="items5" @click="cart">
       <div class="cart">
         <img src="../../assets/cart.png" alt="carts" class="cartsImage" />
       </div>
@@ -61,6 +61,11 @@ export default {
     admin() {
       this.$router.push({
         path: "/adminstrator",
+      });
+    },
+    cart() {
+      this.$router.push({
+        path: "/cart",
       });
     },
   },

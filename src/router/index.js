@@ -1,12 +1,13 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import login from "../components/userAuth/login.vue"
-import signUp from "../components/userAuth/signUp.vue"
-import reset from "../components/userAuth/reset.vue"
-import adminstrator from "../components/Admin/adminstrator.vue"
-import addProducts from "../components/Admin/addProducts.vue"
-import viewProduct from "../components/productPage/viewProduct.vue"
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import HomeView from '../views/HomeView.vue';
+import login from "../components/userAuth/login.vue";
+import signUp from "../components/userAuth/signUp.vue";
+import reset from "../components/userAuth/reset.vue";
+import adminstrator from "../components/Admin/adminstrator.vue";
+import addProducts from "../components/Admin/addProducts.vue";
+import viewProduct from "../components/productPage/viewProduct.vue";
+import cart from "../components/cart/cart.vue";
 Vue.use(VueRouter)
 
 const routes = [{
@@ -43,7 +44,13 @@ const routes = [{
         path: `/viewProduct/:id`,
         name: 'viewProduct',
         component: viewProduct
-    }
+    },
+    {
+        path: `/cart`,
+        name: 'cart',
+        component: cart
+    },
+
 ]
 
 const router = new VueRouter({
