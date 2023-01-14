@@ -18,9 +18,16 @@
         <img src="../../assets/search.png" alt="search" class="searchIcon" />
       </div>
     </div>
-    <div class="items3" @click="login">
+    <div class="items3" @click="dropdown">
       <div class="signIn">
         <img src="../../assets/signin.png" alt="signIn" class="signInImage" />
+      </div>
+      <div class="dropdown" v-if="active">
+        <ul class="menu">
+          <li class="list" v-if="logStatus" @click="logout">logout</li>
+          <li class="list" v-if="!logStatus" @click="login">login</li>
+          <li class="list">settings</li>
+        </ul>
       </div>
     </div>
     <div class="items4" @click="orders">
@@ -41,22 +48,43 @@
   </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "Header",
   components: {},
   data() {
-    return {};
+    return {
+      active: false,
+      logStatus: false,
+    };
+  },
+  created() {
+    this.getDataFromLocalStorage();
   },
   methods: {
+    getDataFromLocalStorage() {
+      let loaclStorage = JSON.parse(localStorage.getItem("store"));
+      this.logStatus = JSON.parse(loaclStorage.login.loginStatus);
+      console.log("log status", this.logStatus);
+    },
+    dropdown() {
+      this.active = !this.active;
+    },
     login() {
       this.$router.push({
         path: "/login",
       });
     },
+    logout() {
+      this.$store.dispatch("getLoginStatus", false);
+      this.$router.push({ path: "/" }).catch((err) => {});
+    },
     home() {
-      this.$router.push({
-        path: "/",
-      });
+      this.$router
+        .push({
+          path: "/",
+        })
+        .catch((err) => {});
     },
     admin() {
       this.$router.push({
@@ -147,6 +175,37 @@ export default {
 .signInImage {
   width: 80%;
   height: 100%;
+}
+.dropdown {
+  position: absolute;
+  top: 81%;
+  background: whitesmoke;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 6px;
+  width: 14%;
+}
+.menu {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0px;
+  width: 95%;
+}
+.list {
+  font-size: 22px;
+  font-family: helvetica;
+  margin: 3%;
+  width: 95%;
+}
+.list:hover {
+  background: #ffde3ade;
+}
+.list:active {
+  background: #2ede6cde;
 }
 .items4 {
   border: 1px solid;

@@ -34,6 +34,7 @@
 <script>
 import Header from "../HeaderComponent/Header.vue";
 import axios from "axios";
+import { mapGetters } from "vuex";
 export default {
   name: "login",
   components: { Header },
@@ -42,6 +43,15 @@ export default {
       username: "",
       password: "",
     };
+  },
+  computed: {
+    ...mapGetters(["getStatus"]),
+  },
+  beforeCreate() {
+    this.$store.commit("initialiseStore");
+  },
+  created() {
+    console.log("check login status at created", this.getStatus);
   },
   methods: {
     showPassword() {
@@ -67,10 +77,18 @@ export default {
         username: this.username,
         password: this.password,
       };
-      let response = await axios.post(
-        "http://localhost:4000/api/login/login",
-        post
-      );
+      try {
+        let response = await axios.post(
+          "http://localhost:4000/api/login/login",
+          post
+        );
+        let loginStatus = true;
+        this.$store.dispatch("getLoginStatus", loginStatus);
+        this.$router.push({
+          path: "/",
+        });
+        console.log("check login status at after login", this.getStatus);
+      } catch (error) {}
     },
   },
 };

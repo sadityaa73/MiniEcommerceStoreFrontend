@@ -67,6 +67,7 @@
 </template>
 <script>
 import axios from "axios";
+import { mapGetters } from "vuex";
 export default {
   name: "product",
   components: {},
@@ -78,6 +79,7 @@ export default {
       studyDeals: [],
     };
   },
+  computed: { ...mapGetters(["getStatus"]) },
   created() {
     this.getProducts();
   },

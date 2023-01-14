@@ -1,28 +1,28 @@
-import axios from "axios";
 export default {
     state: {
-        userLogin: [],
+        loginStatus: ""
     },
     getters: {
-        getLocalStorage(state) {
-            return JSON.parse(state.localStorage);
+        getStatus(state) {
+            return state.loginStatus;
         }
     },
     mutations: {
-
-        setLocalStorage(state, payload) {
-            state.localStorage.setItem("user", payload);
+        setloginStatus(state, payload) {
+            state.loginStatus = payload;
         },
-        initialiseStore(state) {
-            // Check if the ID exists
+        takeInitialSnap(state) {
             if (localStorage.getItem('store')) {
-
+                // Replace the state object with the stored item
+                this.replaceState(
+                    Object.assign(state, JSON.parse(localStorage.getItem('store')))
+                );
             }
         }
     },
     actions: {
-        setLocalStorage(context, payload) {
-            context.commit('setLocalStorage', payload);
+        getLoginStatus(context, payload) {
+            context.commit("setloginStatus", payload);
         }
     }
 }
