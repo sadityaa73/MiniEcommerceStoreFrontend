@@ -48,7 +48,6 @@
   </div>
 </template>
 <script>
-import { mapGetters } from "vuex";
 export default {
   name: "Header",
   components: {},
@@ -64,7 +63,7 @@ export default {
   methods: {
     getDataFromLocalStorage() {
       let loaclStorage = JSON.parse(localStorage.getItem("store"));
-      this.logStatus = JSON.parse(loaclStorage.login.loginStatus);
+      this.logStatus = loaclStorage.login.loginStatus;
       console.log("log status", this.logStatus);
     },
     dropdown() {

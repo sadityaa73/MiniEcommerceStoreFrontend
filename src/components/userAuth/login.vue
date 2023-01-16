@@ -51,6 +51,7 @@ export default {
     this.$store.commit("initialiseStore");
   },
   created() {
+    console.log("printing current route", this.$route.params);
     console.log("check login status at created", this.getStatus);
   },
   methods: {
@@ -84,6 +85,14 @@ export default {
         );
         let loginStatus = true;
         this.$store.dispatch("getLoginStatus", loginStatus);
+        if (this.$route.params.previousRoute === "viewProduct") {
+          this.$router.push({ path: "/placeOrder" });
+          return;
+        }
+        if (this.$route.params.previousRoute === "cart") {
+          this.$router.push({ path: "/placeOrder" });
+          return;
+        }
         this.$router.push({
           path: "/",
         });

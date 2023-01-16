@@ -15,20 +15,27 @@
             Your cart is empty please add some items here !!
           </h2>
         </div>
-        <div class="cartContainer" v-for="(cart, index) in cart" :key="index">
-          <div class="imageContainer">
-            <img :src="cart.image" alt="" class="image" />
-          </div>
-          <div class="cartProductInfo">
-            <h2 class="info">{{ cart.name }}</h2>
-            <h2 class="info">{{ cart.price }}</h2>
-            <div class="btns">
-              <button @click="remove(cart._id)">remove</button>
-              <button @click="placeOrder">place order</button>
+        <div class="cartArea">
+          <div class="cartContainer" v-for="(cart, index) in cart" :key="index">
+            <div class="imageContainer">
+              <img :src="cart.image" alt="" class="image" />
+            </div>
+            <div class="cartProductInfo">
+              <h2 class="info">{{ cart.name }}</h2>
+              <h2 class="info">{{ cart.price }}</h2>
+              <div class="btns">
+                <div class="value">{{ cart.quantity + " " + "qty" }}</div>
+                <button @click="remove(cart._id)">remove</button>
+                <button @click="placeOrder(cart._id)">place order</button>
+              </div>
             </div>
           </div>
         </div>
+        <div class="placeOrderForAll">
+          <button class="orderAll">order all</button>
+        </div>
       </div>
+
       <div class="otherProducts">
         <div
           class="ProductContainer"
@@ -42,8 +49,22 @@
             <h2 class="info">{{ product.name }}</h2>
             <h2 class="info">{{ product.price }}</h2>
             <div class="btns">
+              <div class="quant">
+                <div class="value">{{ productQuantity }}</div>
+                <div class="btn">
+                  <button class="valueBtns" @click="addQuantity(-1)">-</button
+                  ><button class="valueBtns" @click="addQuantity(+1)">+</button>
+                </div>
+              </div>
               <button
-                @click="addToCart(product.image, product.name, product.price)"
+                @click="
+                  addToCart(
+                    product.image,
+                    product.name,
+                    product.price,
+                    product._id
+                  )
+                "
               >
                 add to cart
               </button>
@@ -57,16 +78,20 @@
 <script>
 import axios from "axios";
 import Header from "../HeaderComponent/Header.vue";
+import { onUpdated } from "@vue/runtime-core";
 export default {
   components: { Header },
   data() {
     return {
       cart: [],
       allProducts: [],
+      productQuantity: 1,
     };
   },
+  computed: {},
   created() {
     this.getAllProducts();
+    this.getLogStatus();
     this.getCart();
   },
   methods: {
@@ -76,11 +101,54 @@ export default {
       );
       this.allProducts = response.data;
     },
-    async addToCart(image_url, productName, productPrice, user_id) {
+    addQuantity(value) {
+      if (value === +1) {
+        if (this.productQuantity >= 0) {
+          this.productQuantity += value;
+          console.log("quantity", this.productQuantity);
+          return;
+        }
+      }
+
+      if (value === -1) {
+        if (this.productQuantity > 0) {
+          this.productQuantity += value;
+          console.log("quantity", this.productQuantity);
+          return;
+        }
+      }
+    },
+    async addToCart(image_url, productName, productPrice, Id, user_id) {
+      debugger;
+      let id = { productId: Id };
+      let cartItem = await axios.post(
+        `http://localhost:4000/api/cart/get_product`,
+        id
+      );
+      let data = cartItem.data;
+      if (data.productId === Id) {
+        let oldPrice = data.price;
+        let oldQuantity = data.quantity;
+        let newValues = {
+          productId: Id,
+          price: oldPrice + oldPrice * this.productQuantity,
+          quantity: oldQuantity + this.productQuantity,
+        };
+        let update = await axios.patch(
+          "http://localhost:4000/api/cart/update_cart",
+          newValues
+        );
+        let updatedData = update.data;
+        this.getCart();
+        return;
+      }
+
       let post = {
         image: image_url,
         name: productName,
-        price: productPrice,
+        price: productPrice * this.productQuantity,
+        productId: Id,
+        quantity: this.productQuantity,
         userId: user_id ? user_id : "",
       };
       let response = await axios.post(
@@ -102,11 +170,22 @@ export default {
       let data = response.data;
       this.getCart();
     },
-    placeOrder() {
-      debugger;
-      this.$router.push({
-        path: "/placeOrder",
-      });
+    placeOrder(item_id) {
+      console.log("printing item id in cart", item_id);
+      this.$store.dispatch("getCheckoutItems", item_id);
+      if (this.logStatus) {
+        this.$router.push({
+          path: "/placeOrder",
+        });
+      } else {
+        this.$router.push({
+          path: "/login/cart",
+        });
+      }
+    },
+    getLogStatus() {
+      let logStatus = JSON.parse(localStorage.getItem("store"));
+      this.logStatus = logStatus.login.loginStatus;
     },
   },
 };
@@ -152,6 +231,14 @@ export default {
   width: 7%;
   height: 90%;
 }
+.cartArea {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 83%;
+  overflow-x: hidden;
+}
 .cartContainer {
   display: flex;
   border: 1px solid;
@@ -184,8 +271,32 @@ export default {
 .btns {
   margin-top: 6%;
   display: flex;
-
   justify-content: space-evenly;
+}
+.btn {
+  display: flex;
+  justify-content: space-evenly;
+}
+.quant {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 42%;
+}
+.value {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 15px;
+  font-family: helvetica;
+  color: #ec6009;
+}
+.valueBtns {
+  height: 100%;
+  border: 1px solid;
+}
+.valueBtns:active {
+  background: #ffde3ade;
 }
 .icon {
   width: 29%;
@@ -222,5 +333,24 @@ export default {
   margin-left: 1%;
   border-radius: 6px;
   box-shadow: 0px 4px 5px 3px #0000007d;
+}
+.placeOrderForAll {
+  display: flex;
+  border: 1px solid;
+  width: 21%;
+  height: 6%;
+  border-radius: 6px;
+  justify-content: center;
+  margin-top: 2%;
+  overflow: hidden;
+}
+.orderAll {
+  width: 100%;
+  font-size: 18px;
+  font-family: helvetica;
+  border: none;
+}
+.orderAll:active {
+  background: #ffde3ade;
 }
 </style>

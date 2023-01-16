@@ -99,12 +99,13 @@ export default {
       viewProduct: [],
       otherProduct: [],
       cart: [],
+      logStatus: "",
     };
   },
   created() {
     this.getProductInfo();
     this.getCart();
-    console.log("printing id", this.$route.params.id);
+    this.getLogingStatus();
   },
   methods: {
     async getProductInfo() {
@@ -120,7 +121,6 @@ export default {
       this.otherProduct = response2.data;
     },
     viewProducts(id) {
-      console.log(`printing id ${id}`);
       this.$router.push({ path: `/viewProduct/${id}` });
       this.getProductInfo();
     },
@@ -135,17 +135,13 @@ export default {
         "http://localhost:4000/api/cart/cart",
         post
       );
-
-      console.log("printing cart", this.cart);
       this.getCart();
     },
     async getCart() {
       let response = await axios.get("http://localhost:4000/api/cart/cart");
       this.cart = response.data;
-      console.log("printing cart details", this.cart);
     },
     async remove(product_id) {
-      console.log("printing product id", product_id);
       let post = { _id: product_id };
       let response = await axios.patch(
         "http://localhost:4000/api/cart/removeItems",
@@ -155,7 +151,15 @@ export default {
       this.getCart();
     },
     placeOrder() {
-      this.$router.push({ path: "/placeOrder" });
+      if (this.logStatus) {
+        this.$router.push({ path: "/placeOrder" });
+      } else {
+        this.$router.push({ path: `/login/viewProduct` });
+      }
+    },
+    getLogingStatus() {
+      let storage = JSON.parse(localStorage.getItem("store"));
+      this.logStatus = storage.login.loginStatus;
     },
   },
 };

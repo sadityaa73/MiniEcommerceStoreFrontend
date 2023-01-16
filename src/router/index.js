@@ -23,6 +23,11 @@ const routes = [{
         component: login
     },
     {
+        path: '/login/:previousRoute',
+        name: 'login',
+        component: login
+    },
+    {
         path: '/signUp',
         name: 'signUp',
         component: signUp
