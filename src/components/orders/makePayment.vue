@@ -2,15 +2,19 @@
   <div class="mainContainer">
     <div class="inputContainer">
       <div class="allproducts">
-        <div class="cartContainer">
+        <div
+          class="cartContainer"
+          v-for="(cartItem, index) in cartItems"
+          :key="index"
+        >
           <div class="imageContainer">
-            <img src="" alt="" class="image" />
+            <img :src="cartItem.image" alt="image" class="image" />
           </div>
           <div class="cartProductInfo">
-            <h2 class="info">name</h2>
-            <h2 class="info">price</h2>
+            <h2 class="info">{{ cartItem.name }}</h2>
+            <h2 class="info">{{ cartItem.price }}</h2>
             <div class="btns">
-              <div class="value">item.quantity + " " + "qty"</div>
+              <div class="value">{{ cartItem.quantity + " " + "qty" }}</div>
               <button @click="remove()">remove</button>
             </div>
           </div>
@@ -19,7 +23,7 @@
       <div class="currentAddressContainer">
         <div class="head">Current Address</div>
         <div class="currentAddress">
-          <h6>current Address</h6>
+          <h6>{{ address }}</h6>
         </div>
       </div>
       <div class="checkout">
@@ -35,8 +39,12 @@
 </template>
 <script>
 export default {
+  props: { address: String, cartItems: Array },
   data() {
     return {};
+  },
+  created() {
+    console.log("printing cart", this.cartItems);
   },
 };
 </script>

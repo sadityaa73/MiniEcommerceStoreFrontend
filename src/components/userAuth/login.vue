@@ -83,6 +83,7 @@ export default {
           "http://localhost:4000/api/login/login",
           post
         );
+        this.$store.dispatch("getUsers", this.username);
         let loginStatus = true;
         this.$store.dispatch("getLoginStatus", loginStatus);
         if (this.$route.params.previousRoute === "viewProduct") {

@@ -25,7 +25,12 @@
             placeholder="Mobile"
             v-model="mobile"
           />
-          <input type="text" class="inputBox" placeholder="Address" />
+          <input
+            type="text"
+            class="inputBox"
+            placeholder="Address"
+            v-model="address"
+          />
           <input
             type="text"
             class="inputBox"
@@ -72,7 +77,7 @@ export default {
       mobile: "",
       address: "",
       username: "",
-      passowrd: "",
+      password: "",
       matchPassword: "",
     };
   },
@@ -92,6 +97,7 @@ export default {
       this.$router.push({ path: "/login" });
     },
     async signup() {
+      debugger;
       if (this.password === this.matchPassword) {
         let post = {
           firstname: this.firstname,

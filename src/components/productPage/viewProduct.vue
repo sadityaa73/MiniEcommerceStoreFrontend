@@ -85,7 +85,7 @@
               >
                 +
               </button>
-              <button class="orderPlace" @click="placeOrder">
+              <button class="orderPlace" @click="placeOrder(cart.productId)">
                 place order
               </button>
               <button class="remove" @click="remove(cart._id)">
@@ -253,9 +253,9 @@ export default {
       let data = response.data;
       this.getCart();
     },
-    placeOrder() {
+    placeOrder(id) {
       if (this.logStatus) {
-        this.$router.push({ path: "/placeOrder" });
+        this.$router.push({ path: `/placeOrder/${id}` });
       } else {
         this.$router.push({ path: `/login/viewProduct` });
       }

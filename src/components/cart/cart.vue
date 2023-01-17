@@ -28,7 +28,7 @@
                 <div class="value">{{ cart.quantity + " " + "qty" }}</div>
                 <button class="valueBtns" @click="addQuantity(+1,cart.productId, cart.fixedPrice,cart.price,cart.quantity)">+</button>
                 <button @click="remove(cart._id)">remove</button>
-                <button @click="placeOrder(cart._id)">place order</button>
+                <button @click="placeOrder(cart.productId)">place order</button>
               </div>
             </div>
           </div>
@@ -197,11 +197,9 @@ export default {
       this.getCart();
     },
     placeOrder(item_id) {
-      console.log("printing item id in cart", item_id);
-      this.$store.dispatch("getCheckoutItems", item_id);
       if (this.logStatus) {
         this.$router.push({
-          path: "/placeOrder",
+          path: `/placeOrder/${item_id}`,
         });
       } else {
         this.$router.push({

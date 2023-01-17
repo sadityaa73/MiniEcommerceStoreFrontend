@@ -1,25 +1,28 @@
 import axios from "axios"
 export default {
     state: {
-        users: []
+        usersAddress: "",
+        username: ""
     },
     getters: {
-        gettingUser(state, getters) {
+        users(state) {
             debugger;
-            return state.users.length > 0 ? true : false;
+            return state.usersAddress;
         }
     },
     mutations: {
         loadUsers(state, payload) {
             debugger;
-            state.users.push(payload)
+            state.usersAddress = payload.address;
+            state.username = payload.username;
         }
     },
     actions: {
-        async getUsers(context) {
+        async getUsers(context, payload) {
             debugger;
-            let response = await axios.get("http://localhost:4000/api/signup/signup");
-            context.commit("loadUsers", response);
+            let username = payload
+            let response = await axios.get(`http://localhost:4000/api/signup/get_user/${username}`);
+            context.commit("loadUsers", response.data);
         }
     }
 }

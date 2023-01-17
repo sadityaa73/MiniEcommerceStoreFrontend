@@ -54,8 +54,16 @@
         </div>
       </div>
     </div>
-    <addAddress v-if="addressComponent" @showComponent="getdata($event)" />
-    <makePayment v-if="makePaymentComponent" />
+    <addAddress
+      v-if="addressComponent"
+      @users="getUsers($event)"
+      @showComponent="getdata($event)"
+    />
+    <makePayment
+      v-if="makePaymentComponent"
+      :address="userAddress"
+      :cartItems="cart"
+    />
   </div>
 </template>
 <script>
@@ -75,6 +83,7 @@ export default {
       cart: [],
       productQuantity: 0,
       totalAmount: 0,
+      userAddress: "",
     };
   },
   created() {
@@ -155,6 +164,10 @@ export default {
         total += this.cart[i].price;
       }
       this.totalAmount = total;
+    },
+    getUsers(event) {
+      console.log("printing emit data", event);
+      this.userAddress = event;
     },
   },
 };

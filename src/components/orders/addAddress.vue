@@ -4,7 +4,7 @@
       <div class="currentAddressContainer">
         <div class="head">Current Address</div>
         <div class="currentAddress">
-          <h6>current Address</h6>
+          <h6>{{ users }}</h6>
           <div class="newAdd" v-if="newAdd">
             <input
               type="text"
@@ -24,24 +24,53 @@
   </div>
 </template>
 <script>
+import axios from "axios";
 export default {
   name: "addAddress",
   components: {},
   data() {
     return {
       newAdd: false,
+      users: "",
+      address: "",
+      newAddress: "",
+      username: "",
     };
   },
+  created() {
+    console.log(
+      "printing user from store",
+      JSON.parse(localStorage.getItem("store"))
+    );
+    this.getUserAddress();
+  },
+  computed: {},
   methods: {
     remove() {},
     change() {
       this.newAdd = true;
     },
-    save() {
+    async save() {
+      debugger;
       this.newAdd = false;
+      let username = this.username;
+      let post = { address: this.newAddress };
+      let response = await axios.patch(
+        `http://localhost:4000/api/signup/change_address/${username}`,
+        post
+      );
+      this.getUserAddress();
     },
     next() {
       this.$emit("showComponent", true);
+    },
+    getUserAddress() {
+      debugger;
+      let user = JSON.parse(localStorage.getItem("store"));
+      this.users = user.signup.usersAddress;
+      this.username = user.signup.username;
+      this.$emit("users", this.users);
+      console.log("printing users from locaStorage", this.address);
     },
   },
 };
