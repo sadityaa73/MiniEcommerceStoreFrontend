@@ -11,6 +11,35 @@
             <h2 class="info">{{ item.name }}</h2>
             <h2 class="info">{{ item.price }}</h2>
             <div class="btns">
+              <button
+                class="valueBtns"
+                @click="
+                  addQuantity(
+                    -1,
+                    item.productId,
+                    item.fixedPrice,
+                    item.price,
+                    item.quantity
+                  )
+                "
+              >
+                -
+              </button>
+              <div class="value">{{ item.quantity + " " + "qty" }}</div>
+              <button
+                class="valueBtns"
+                @click="
+                  addQuantity(
+                    +1,
+                    item.productId,
+                    item.fixedPrice,
+                    item.price,
+                    item.quantity
+                  )
+                "
+              >
+                +
+              </button>
               <button @click="remove(item._id)">remove</button>
             </div>
           </div>
@@ -44,6 +73,7 @@ export default {
       addressComponent: false,
       makePaymentComponent: false,
       cart: [],
+      productQuantity: 0,
       totalAmount: 0,
     };
   },
@@ -51,6 +81,52 @@ export default {
     this.getCartItems();
   },
   methods: {
+    async addQuantity(value, id, fixedPrice, price, quantity) {
+      console.log("printing id", id);
+      if (value === +1) {
+        if (quantity >= 0) {
+          this.productQuantity += value;
+          console.log("quantity", this.productQuantity);
+          let oldPrice = price;
+          let oldQuantity = quantity;
+          let newValues = {
+            productId: id,
+            price: fixedPrice * (oldQuantity + this.productQuantity),
+            quantity: oldQuantity + this.productQuantity,
+          };
+          let update = await axios.patch(
+            "http://localhost:4000/api/cart/update_cart",
+            newValues
+          );
+          let updatedData = update.data;
+          this.productQuantity = 0;
+          this.getCartItems();
+          return;
+        }
+      }
+
+      if (value === -1) {
+        if (quantity > 1) {
+          this.productQuantity += quantity + value;
+          console.log("quantity", this.productQuantity);
+          let oldPrice = price;
+          let oldQuantity = quantity;
+          let newValues = {
+            productId: id,
+            price: fixedPrice * this.productQuantity,
+            quantity: this.productQuantity,
+          };
+          let update = await axios.patch(
+            "http://localhost:4000/api/cart/update_cart",
+            newValues
+          );
+          let updatedData = update.data;
+          this.productQuantity = 0;
+          this.getCartItems();
+          return;
+        }
+      }
+    },
     async remove(product_id) {
       let post = { _id: product_id };
       let response = await axios.patch(
@@ -137,6 +213,31 @@ export default {
   display: flex;
 
   justify-content: space-evenly;
+}
+.btn {
+  display: flex;
+  justify-content: space-evenly;
+}
+.quant {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 42%;
+}
+.value {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 15px;
+  font-family: helvetica;
+  color: #ec6009;
+}
+.valueBtns {
+  height: 100%;
+  border: 1px solid;
+}
+.valueBtns:active {
+  background: #ffde3ade;
 }
 .allproducts {
   border: 1px solid;

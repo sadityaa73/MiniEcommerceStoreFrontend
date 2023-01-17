@@ -10,6 +10,7 @@
             <h2 class="info">name</h2>
             <h2 class="info">price</h2>
             <div class="btns">
+              <div class="value">item.quantity + " " + "qty"</div>
               <button @click="remove()">remove</button>
             </div>
           </div>
@@ -110,6 +111,27 @@ export default {
   display: flex;
 
   justify-content: space-evenly;
+}
+.quant {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 42%;
+}
+.value {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 15px;
+  font-family: helvetica;
+  color: #ec6009;
+}
+.valueBtns {
+  height: 100%;
+  border: 1px solid;
+}
+.valueBtns:active {
+  background: #ffde3ade;
 }
 .currentAddressContainer {
   border: 1px solid;

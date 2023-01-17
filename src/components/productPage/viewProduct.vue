@@ -25,7 +25,8 @@
                 addToCart(
                   viewProduct.image,
                   viewProduct.name,
-                  viewProduct.price
+                  viewProduct.price,
+                  viewProduct._id
                 )
               "
             >
@@ -55,6 +56,35 @@
               {{ cart.price }}
             </h2>
             <div class="btns">
+              <button
+                class="valueBtns"
+                @click="
+                  addQuantity(
+                    -1,
+                    cart.productId,
+                    cart.fixedPrice,
+                    cart.price,
+                    cart.quantity
+                  )
+                "
+              >
+                -
+              </button>
+              <div class="value">{{ cart.quantity + " " + "qty" }}</div>
+              <button
+                class="valueBtns"
+                @click="
+                  addQuantity(
+                    +1,
+                    cart.productId,
+                    cart.fixedPrice,
+                    cart.price,
+                    cart.quantity
+                  )
+                "
+              >
+                +
+              </button>
               <button class="orderPlace" @click="placeOrder">
                 place order
               </button>
@@ -99,6 +129,7 @@ export default {
       viewProduct: [],
       otherProduct: [],
       cart: [],
+      productQuantity: 0,
       logStatus: "",
     };
   },
@@ -108,12 +139,59 @@ export default {
     this.getLogingStatus();
   },
   methods: {
+    async addQuantity(value, id, fixedPrice, price, quantity) {
+      console.log("printing id", id);
+      if (value === +1) {
+        if (quantity >= 0) {
+          this.productQuantity += value;
+          console.log("quantity", this.productQuantity);
+          let oldPrice = price;
+          let oldQuantity = quantity;
+          let newValues = {
+            productId: id,
+            price: fixedPrice * (oldQuantity + this.productQuantity),
+            quantity: oldQuantity + this.productQuantity,
+          };
+          let update = await axios.patch(
+            "http://localhost:4000/api/cart/update_cart",
+            newValues
+          );
+          let updatedData = update.data;
+          this.productQuantity = 0;
+          this.getCart();
+          return;
+        }
+      }
+
+      if (value === -1) {
+        if (quantity > 1) {
+          this.productQuantity += quantity + value;
+          console.log("quantity", this.productQuantity);
+          let oldPrice = price;
+          let oldQuantity = quantity;
+          let newValues = {
+            productId: id,
+            price: fixedPrice * this.productQuantity,
+            quantity: this.productQuantity,
+          };
+          let update = await axios.patch(
+            "http://localhost:4000/api/cart/update_cart",
+            newValues
+          );
+          let updatedData = update.data;
+          this.productQuantity = 0;
+          this.getCart();
+          return;
+        }
+      }
+    },
     async getProductInfo() {
-      let peoduct_id = this.$route.params.id;
+      let product_id = this.$route.params.id;
       let response = await axios.get(
-        `http://localhost:4000/api/product/products/${peoduct_id}`
+        `http://localhost:4000/api/product/products/${product_id}`
       );
       this.viewProduct = response.data;
+      console.log("printing viewProductDeatil", this.viewProduct);
       let filter = "OcassionalDeals";
       let response2 = await axios.get(
         `http://localhost:4000/api/product/product/${filter}`
@@ -124,11 +202,36 @@ export default {
       this.$router.push({ path: `/viewProduct/${id}` });
       this.getProductInfo();
     },
-    async addToCart(image_url, productName, productPrice, user_id) {
+    async addToCart(image_url, productName, productPrice, Id, user_id) {
+      let id = { productId: Id };
+      let cartItem = await axios.post(
+        `http://localhost:4000/api/cart/get_product`,
+        id
+      );
+      let data = cartItem.data;
+      if (data.productId === Id) {
+        let oldPrice = data.price;
+        let oldQuantity = data.quantity;
+        let newValues = {
+          productId: Id,
+          price: oldPrice + oldPrice * 1,
+          quantity: oldQuantity + 1,
+        };
+        let update = await axios.patch(
+          "http://localhost:4000/api/cart/update_cart",
+          newValues
+        );
+        let updatedData = update.data;
+        this.getCart();
+        return;
+      }
       let post = {
         image: image_url,
         name: productName,
-        price: productPrice,
+        price: productPrice * 1,
+        fixedPrice: productPrice,
+        productId: Id,
+        quantity: 1,
         userId: user_id ? user_id : "",
       };
       let response = await axios.post(
@@ -329,6 +432,31 @@ export default {
   justify-content: space-evenly;
   height: 30%;
   margin-top: 3%;
+}
+.btn {
+  display: flex;
+  justify-content: space-evenly;
+}
+.quant {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 42%;
+}
+.value {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 15px;
+  font-family: helvetica;
+  color: #ec6009;
+}
+.valueBtns {
+  height: 100%;
+  border: 1px solid;
+}
+.valueBtns:active {
+  background: #ffde3ade;
 }
 .orderPlace {
   display: flex;

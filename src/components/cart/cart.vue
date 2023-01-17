@@ -24,7 +24,9 @@
               <h2 class="info">{{ cart.name }}</h2>
               <h2 class="info">{{ cart.price }}</h2>
               <div class="btns">
+                <button class="valueBtns" @click="addQuantity(-1,cart.productId, cart.fixedPrice,cart.price,cart.quantity)">-</button>
                 <div class="value">{{ cart.quantity + " " + "qty" }}</div>
+                <button class="valueBtns" @click="addQuantity(+1,cart.productId, cart.fixedPrice,cart.price,cart.quantity)">+</button>
                 <button @click="remove(cart._id)">remove</button>
                 <button @click="placeOrder(cart._id)">place order</button>
               </div>
@@ -49,12 +51,6 @@
             <h2 class="info">{{ product.name }}</h2>
             <h2 class="info">{{ product.price }}</h2>
             <div class="btns">
-              <div class="quant">
-                <div class="value">{{ productQuantity }}</div>
-                <div class="btn">
-                  <button class="valueBtns" @click="addQuantity(-1)">-</button
-                  ><button class="valueBtns" @click="addQuantity(+1)">+</button>
-                </div>
               </div>
               <button
                 @click="
@@ -85,7 +81,7 @@ export default {
     return {
       cart: [],
       allProducts: [],
-      productQuantity: 1,
+      productQuantity: 0,
     };
   },
   computed: {},
@@ -101,25 +97,54 @@ export default {
       );
       this.allProducts = response.data;
     },
-    addQuantity(value) {
+    async addQuantity(value,id,fixedPrice,price,quantity) {
+      console.log("printing id",id);
       if (value === +1) {
-        if (this.productQuantity >= 0) {
-          this.productQuantity += value;
+        if (quantity >= 0) {
+         this.productQuantity +=value;
           console.log("quantity", this.productQuantity);
+        let oldPrice = price;
+        let oldQuantity = quantity;
+        let newValues = {
+          productId: id,
+          price:fixedPrice * (oldQuantity+this.productQuantity),
+          quantity: oldQuantity+this.productQuantity,
+        };
+        let update = await axios.patch(
+          "http://localhost:4000/api/cart/update_cart",
+          newValues
+        );
+        let updatedData = update.data;
+        this.productQuantity=0;
+        this.getCart();
           return;
         }
       }
 
       if (value === -1) {
-        if (this.productQuantity > 0) {
-          this.productQuantity += value;
+       
+        if (quantity >1) {
+          this.productQuantity += quantity+value;
           console.log("quantity", this.productQuantity);
+           let oldPrice = price;
+        let oldQuantity = quantity;
+        let newValues = {
+          productId: id,
+          price:fixedPrice *  (this.productQuantity),
+          quantity: this.productQuantity,
+        };
+        let update = await axios.patch(
+          "http://localhost:4000/api/cart/update_cart",
+          newValues
+        );
+        let updatedData = update.data;
+         this.productQuantity=0;
+        this.getCart();
           return;
         }
       }
     },
     async addToCart(image_url, productName, productPrice, Id, user_id) {
-      debugger;
       let id = { productId: Id };
       let cartItem = await axios.post(
         `http://localhost:4000/api/cart/get_product`,
@@ -131,8 +156,8 @@ export default {
         let oldQuantity = data.quantity;
         let newValues = {
           productId: Id,
-          price: oldPrice + oldPrice * this.productQuantity,
-          quantity: oldQuantity + this.productQuantity,
+          price: oldPrice + oldPrice *1,
+          quantity: oldQuantity + 1,
         };
         let update = await axios.patch(
           "http://localhost:4000/api/cart/update_cart",
@@ -146,9 +171,10 @@ export default {
       let post = {
         image: image_url,
         name: productName,
-        price: productPrice * this.productQuantity,
+        price: productPrice * 1,
+        fixedPrice:productPrice,
         productId: Id,
-        quantity: this.productQuantity,
+        quantity: 1,
         userId: user_id ? user_id : "",
       };
       let response = await axios.post(
