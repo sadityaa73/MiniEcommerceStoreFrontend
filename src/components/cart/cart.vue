@@ -15,26 +15,35 @@
             Your cart is empty please add some items here !!
           </h2>
         </div>
-        <div class="cartArea">
+        <div class="cartArea" v-if="cart.length != 0">
           <div class="cartContainer" v-for="(cart, index) in cart" :key="index">
             <div class="imageContainer">
               <img :src="cart.image" alt="" class="image" />
             </div>
             <div class="cartProductInfo">
               <h2 class="info">{{ cart.name }}</h2>
-              <h2 class="info">{{ cart.price }}</h2>
+              <h2 class="rupee"><img
+              src="../../assets/rupee.png"
+              alt="rupee"
+              class="rupeeIcon"
+            />{{ cart.price }}</span
+          ></h2>
               <div class="btns">
                 <button class="valueBtns" @click="addQuantity(-1,cart.productId, cart.fixedPrice,cart.price,cart.quantity)">-</button>
                 <div class="value">{{ cart.quantity + " " + "qty" }}</div>
                 <button class="valueBtns" @click="addQuantity(+1,cart.productId, cart.fixedPrice,cart.price,cart.quantity)">+</button>
-                <button @click="remove(cart._id)">remove</button>
+                <button  class="remove" @click="remove(cart._id)"> <img
+                    src="../../assets/delete.png"
+                    alt="remove"
+                    class="removeIcon"
+                  /></button>
                 <button @click="placeOrder(cart.productId)">place order</button>
               </div>
             </div>
           </div>
         </div>
-        <div class="placeOrderForAll">
-          <button class="orderAll">order all</button>
+        <div class="placeOrderForAll" v-if="cart.length != 0">
+          <button class="orderAll" @click="orderAll">order all</button>
         </div>
       </div>
 
@@ -49,7 +58,12 @@
           </div>
           <div class="cartProductInfo">
             <h2 class="info">{{ product.name }}</h2>
-            <h2 class="info">{{ product.price }}</h2>
+            <h2 class="rupee"><img
+              src="../../assets/rupee.png"
+              alt="rupee"
+              class="rupeeIcon2"
+            />{{ product.price }}</span
+          ></h2>
             <div class="btns">
               </div>
               <button
@@ -207,6 +221,13 @@ export default {
         });
       }
     },
+     orderAll() {
+      if (this.logStatus) {
+        this.$router.push({ path: `/placeOrder` });
+      } else {
+        this.$router.push({ path: `/login/viewProduct` });
+      }
+    },
     getLogStatus() {
       let logStatus = JSON.parse(localStorage.getItem("store"));
       this.logStatus = logStatus.login.loginStatus;
@@ -290,7 +311,25 @@ export default {
 .info {
   margin: 0px;
   font-family: helvetica;
-  font-size: 20px;
+  font-size: 14px;
+}
+.rupee{
+  display: flex;
+    justify-content: center;
+    font-size: 15px;
+    align-items: center;
+    }
+
+span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.rupeeIcon {
+  width: 7%;
+}
+.rupeeIcon2 {
+  width: 10%;
 }
 .btns {
   margin-top: 6%;
@@ -324,6 +363,13 @@ export default {
 }
 .icon {
   width: 29%;
+}
+.remove{
+  width: 10%;
+}
+.removeIcon {
+  width: 100%;
+  height: 100%;
 }
 .itemsNotFound {
   width: 97%;

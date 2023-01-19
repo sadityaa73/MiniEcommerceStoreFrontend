@@ -46,57 +46,62 @@
             Your cart is empty please add some items here !!
           </h2>
         </div>
-        <div class="cartContainer" v-for="(cart, index) in cart" :key="index">
-          <div class="imageContainer">
-            <img :src="cart.image" alt="items" class="image" />
-          </div>
-          <div class="cartProductInfo">
-            <h2 class="infoname">{{ cart.name }}</h2>
-            <h2 class="infoprice">
-              {{ cart.price }}
-            </h2>
-            <div class="btns">
-              <button
-                class="valueBtns"
-                @click="
-                  addQuantity(
-                    -1,
-                    cart.productId,
-                    cart.fixedPrice,
-                    cart.price,
-                    cart.quantity
-                  )
-                "
-              >
-                -
-              </button>
-              <div class="value">{{ cart.quantity + " " + "qty" }}</div>
-              <button
-                class="valueBtns"
-                @click="
-                  addQuantity(
-                    +1,
-                    cart.productId,
-                    cart.fixedPrice,
-                    cart.price,
-                    cart.quantity
-                  )
-                "
-              >
-                +
-              </button>
-              <button class="orderPlace" @click="placeOrder(cart.productId)">
-                place order
-              </button>
-              <button class="remove" @click="remove(cart._id)">
-                <img
-                  src="../../assets/delete.png"
-                  alt="remove"
-                  class="removeIcon"
-                />
-              </button>
+        <div class="cartPacker">
+          <div class="cartContainer" v-for="(cart, index) in cart" :key="index">
+            <div class="imageContainer">
+              <img :src="cart.image" alt="items" class="image" />
+            </div>
+            <div class="cartProductInfo">
+              <h2 class="infoname">{{ cart.name }}</h2>
+              <h2 class="infoprice">
+                {{ cart.price }}
+              </h2>
+              <div class="btns">
+                <button
+                  class="valueBtns"
+                  @click="
+                    addQuantity(
+                      -1,
+                      cart.productId,
+                      cart.fixedPrice,
+                      cart.price,
+                      cart.quantity
+                    )
+                  "
+                >
+                  -
+                </button>
+                <div class="value">{{ cart.quantity + " " + "qty" }}</div>
+                <button
+                  class="valueBtns"
+                  @click="
+                    addQuantity(
+                      +1,
+                      cart.productId,
+                      cart.fixedPrice,
+                      cart.price,
+                      cart.quantity
+                    )
+                  "
+                >
+                  +
+                </button>
+                <button class="orderPlace" @click="placeOrder(cart.productId)">
+                  place order
+                </button>
+                <button class="remove" @click="remove(cart._id)">
+                  <img
+                    src="../../assets/delete.png"
+                    alt="remove"
+                    class="removeIcon"
+                  />
+                </button>
+              </div>
             </div>
           </div>
+        </div>
+        <div class="order">
+          <button class="OrderAll" @click="orderAll">Order all</button>
         </div>
       </div>
     </div>
@@ -260,6 +265,13 @@ export default {
         this.$router.push({ path: `/login/viewProduct` });
       }
     },
+    orderAll() {
+      if (this.logStatus) {
+        this.$router.push({ path: `/placeOrder` });
+      } else {
+        this.$router.push({ path: `/login/viewProduct` });
+      }
+    },
     getLogingStatus() {
       let storage = JSON.parse(localStorage.getItem("store"));
       this.logStatus = storage.login.loginStatus;
@@ -382,7 +394,7 @@ export default {
   margin-left: 3%;
 }
 .cart {
-  width: 30%;
+  width: 35%;
   height: 55vh;
   margin-top: 2%;
   display: flex;
@@ -390,6 +402,15 @@ export default {
   align-items: center;
   border-radius: 5px;
   background: whitesmoke;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.cartPacker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 99%;
+  height: 75%;
   overflow-x: hidden;
   overflow-y: auto;
 }
@@ -419,7 +440,7 @@ export default {
 }
 .infoname {
   margin: 0px;
-  font-size: 17px;
+  font-size: 13px;
   font-family: helvetica;
 }
 .infoprice {
@@ -472,6 +493,25 @@ export default {
 .removeIcon {
   width: 100%;
   height: 100%;
+}
+.order {
+  border: 1px solid;
+  width: 60%;
+  height: 8%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1%;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.OrderAll {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+.OrderAll:active {
+  background: #ffde3ade;
 }
 .otherProducts {
   align-items: center;

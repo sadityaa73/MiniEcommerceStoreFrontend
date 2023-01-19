@@ -1,6 +1,8 @@
 import axios from 'axios';
 export default {
-    state: {},
+    state: {
+        checkoutItems: []
+    },
     getters: {},
     mutations: {},
     actions: {}

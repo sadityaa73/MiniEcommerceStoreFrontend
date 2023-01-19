@@ -14,7 +14,15 @@
           <img :src="OcassionalDeals.image" alt="product" class="product" />
         </div>
         <h6 class="productInfo_name">{{ OcassionalDeals.name }}</h6>
-        <h6 class="productInfo_price">{{ OcassionalDeals.price }}</h6>
+        <h6 class="productInfo_price">
+          <span
+            ><img
+              src="../../assets/rupee.png"
+              alt="rupee"
+              class="rupeeIcon"
+            />{{ OcassionalDeals.price }}</span
+          >
+        </h6>
         <!-- <h6 class="productInfo_rating">rating</h6> -->
       </div>
     </div>
@@ -29,7 +37,15 @@
           <img :src="homeDeals.image" alt="product" class="product" />
         </div>
         <h6 class="productInfo_name">{{ homeDeals.name }}</h6>
-        <h6 class="productInfo_price">{{ homeDeals.price }}</h6>
+        <h6 class="productInfo_price">
+          <span
+            ><img
+              src="../../assets/rupee.png"
+              alt="rupee"
+              class="rupeeIcon"
+            />{{ homeDeals.price }}</span
+          >
+        </h6>
         <!-- <h6 class="productInfo_rating">rating</h6> -->
       </div>
     </div>
@@ -44,7 +60,15 @@
           <img :src="groceryDeals.image" alt="product" class="product" />
         </div>
         <h6 class="productInfo_name">{{ groceryDeals.name }}</h6>
-        <h6 class="productInfo_price">{{ groceryDeals.price }}</h6>
+        <h6 class="productInfo_price">
+          <span
+            ><img
+              src="../../assets/rupee.png"
+              alt="rupee"
+              class="rupeeIcon"
+            />{{ groceryDeals.price }}</span
+          >
+        </h6>
         <!-- <h6 class="productInfo_rating">rating</h6> -->
       </div>
     </div>
@@ -59,7 +83,15 @@
           <img :src="studyDeals.image" alt="product" class="product" />
         </div>
         <h6 class="productInfo_name">{{ studyDeals.name }}</h6>
-        <h6 class="productInfo_price">{{ studyDeals.price }}</h6>
+        <h6 class="productInfo_price">
+          <span
+            ><img
+              src="../../assets/rupee.png"
+              alt="rupee"
+              class="rupeeIcon"
+            />{{ studyDeals.price }}</span
+          >
+        </h6>
         <!-- <h6 class="productInfo_rating">rating</h6> -->
       </div>
     </div>
@@ -143,6 +175,14 @@ export default {
   width: 100%;
   height: 100%;
 }
+span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.rupeeIcon {
+  width: 10%;
+}
 .OcassionalDeals {
   width: 100%;
   height: 35%;
@@ -201,7 +241,7 @@ export default {
 }
 .productInfo_name {
   margin: 0px;
-  font-size: 20px;
+  font-size: 15px;
   font-family: helvetica;
 }
 .productInfo_price {

@@ -3,13 +3,26 @@
     <Header />
     <div class="innerContainer" v-if="checkoutComponent">
       <div class="allproducts">
+        <div class="itemsNotFound" v-if="cart.length === 0">
+          <div class="icon">
+            <img src="../../assets/basket.png" alt="" class="itemNotFound" />
+          </div>
+          <h2 class="itemsnotfound">
+            Your cart is empty please add some items here !!
+          </h2>
+        </div>
         <div class="cartContainer" v-for="(item, index) in cart" :key="index">
           <div class="imageContainer">
             <img :src="item.image" alt="" class="image" />
           </div>
           <div class="cartProductInfo">
             <h2 class="info">{{ item.name }}</h2>
-            <h2 class="info">{{ item.price }}</h2>
+            <h2 class="rupee"><img
+              src="../../assets/rupee.png"
+              alt="rupee"
+              class="rupeeIcon2"
+            />{{ item.price }}</span
+          ></h2>
             <div class="btns">
               <button
                 class="valueBtns"
@@ -40,7 +53,13 @@
               >
                 +
               </button>
-              <button @click="remove(item._id)">remove</button>
+              <button class="remove" @click="remove(item._id)">
+                <img
+                  src="../../assets/delete.png"
+                  alt="remove"
+                  class="removeIcon"
+                />
+              </button>
             </div>
           </div>
         </div>
@@ -50,7 +69,12 @@
           <button class="btn" @click="checkout">checkout</button>
         </div>
         <div class="amount">
-          <h6 class="totalAmount">{{ totalAmount }}</h6>
+          <h6 class="totalAmount"><img
+              src="../../assets/rupee.png"
+              alt="rupee"
+              class="rupeeIcon"
+            />{{ totalAmount }}</span
+          ></h6>
         </div>
       </div>
     </div>
@@ -88,14 +112,13 @@ export default {
   },
   created() {
     this.getCartItems();
+    console.log("printing produtId in placeOrder", this.$route.params);
   },
   methods: {
     async addQuantity(value, id, fixedPrice, price, quantity) {
-      console.log("printing id", id);
       if (value === +1) {
         if (quantity >= 0) {
           this.productQuantity += value;
-          console.log("quantity", this.productQuantity);
           let oldPrice = price;
           let oldQuantity = quantity;
           let newValues = {
@@ -117,7 +140,6 @@ export default {
       if (value === -1) {
         if (quantity > 1) {
           this.productQuantity += quantity + value;
-          console.log("quantity", this.productQuantity);
           let oldPrice = price;
           let oldQuantity = quantity;
           let newValues = {
@@ -154,8 +176,31 @@ export default {
       this.addressComponent = false;
     },
     async getCartItems() {
-      let response = await axios.get("http://localhost:4000/api/cart/cart");
-      this.cart = response.data;
+      let data = [];
+      if (this.$route.params.id != undefined) {
+        let post = {
+          productId: this.$route.params.id,
+        };
+        let response = await axios.post(
+          "http://localhost:4000/api/cart/get_product",
+          post
+        );
+        if (response.data != "") {
+          data.push(response.data);
+        }
+        this.cart = data;
+      }
+      if (this.$route.params.id === undefined) {
+        let response = await axios.get("http://localhost:4000/api/cart/cart");
+        this.cart = response.data;
+      }
+
+      console.log("printing getCart response", this.cart);
+      if (this.cart.length === 0) {
+        this.$router.push({
+          path: "/",
+        });
+      }
       this.getTotalAmount();
     },
     getTotalAmount() {
@@ -166,7 +211,6 @@ export default {
       this.totalAmount = total;
     },
     getUsers(event) {
-      console.log("printing emit data", event);
       this.userAddress = event;
     },
   },
@@ -189,6 +233,23 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+.icon {
+  width: 21%;
+}
+.itemsNotFound {
+  width: 97%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  font-family: helvetica;
+}
+.itemNotFound {
+  width: 100%;
+  height: 100%;
 }
 .cartContainer {
   display: flex;
@@ -219,10 +280,19 @@ export default {
 .info {
   margin: 0px;
   font-family: helvetica;
-  font-size: 20px;
+  font-size: 15px;
+}
+.rupee{
+  display: flex;
+    justify-content: center;
+    font-size: 15px;
+    align-items: center;
+    }
+.rupeeIcon2 {
+  width:   7%;
 }
 .btns {
-  margin-top: 6%;
+  margin-top: 2%;
   display: flex;
 
   justify-content: space-evenly;
@@ -251,6 +321,13 @@ export default {
 }
 .valueBtns:active {
   background: #ffde3ade;
+}
+.remove {
+  width: 10%;
+}
+.removeIcon {
+  width: 100%;
+  height: 100%;
 }
 .allproducts {
   border: 1px solid;
@@ -301,8 +378,18 @@ export default {
   justify-content: center;
   align-items: center;
 }
+span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.rupeeIcon {
+  width:   14%;
+}
 .totalAmount {
   font-size: 15px;
   font-family: helvetica;
+  display: flex;
+    justify-content: center;
 }
 </style>

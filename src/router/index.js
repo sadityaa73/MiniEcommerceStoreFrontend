@@ -67,6 +67,12 @@ const routes = [{
         name: 'checkout',
         component: checkout
     },
+    {
+        path: `/placeOrder`,
+        name: 'checkout',
+        component: checkout
+    },
+
 ]
 
 const router = new VueRouter({
