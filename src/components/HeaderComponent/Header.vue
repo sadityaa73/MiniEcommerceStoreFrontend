@@ -278,4 +278,28 @@ export default {
   width: 80%;
   height: 100%;
 }
+@media (max-width: 667px) {
+  .dropdown {
+    position: absolute;
+    top: 81%;
+    background: whitesmoke;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 6px;
+    width: 18%;
+  }
+}
+@media (max-width: 667px) {
+  .dropdown {
+    position: absolute;
+    top: 81%;
+    background: whitesmoke;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 6px;
+    width: 25%;
+  }
+}
 </style>

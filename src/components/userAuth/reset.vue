@@ -203,4 +203,28 @@ export default {
 .spanClass {
   margin-top: 4%;
 }
+@media (max-width: 719px) {
+  .buttonContainer {
+    width: 45%;
+    height: 11%;
+    border-radius: 9px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 3%;
+    overflow: hidden;
+  }
+}
+@media (max-width: 401px) {
+  .buttonContainer {
+    width: 55%;
+    height: 11%;
+    border-radius: 9px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 3%;
+    overflow: hidden;
+  }
+}
 </style>

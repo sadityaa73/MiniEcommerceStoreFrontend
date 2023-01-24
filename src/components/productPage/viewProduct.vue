@@ -35,7 +35,7 @@
           </div>
         </div>
       </div>
-      <div class="offers"></div>
+      <!-- <div class="offers"></div> -->
       <div class="cart">
         <div class="head">
           <img src="../../assets/carts.png" alt="cart" class="cartIcon" />
@@ -100,7 +100,7 @@
             </div>
           </div>
         </div>
-        <div class="order">
+        <div class="order" v-if="cart.length > 0">
           <button class="OrderAll" @click="orderAll">Order all</button>
         </div>
       </div>
@@ -293,7 +293,7 @@ export default {
   width: 98%;
   height: 64vh;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: flex-start;
 }
 .productContainer {
@@ -422,6 +422,7 @@ export default {
   height: 25%;
   margin-top: 2%;
   border-radius: 6px;
+  align-items: center;
 }
 .imageContainer {
   border: 1px solid;
@@ -563,5 +564,7 @@ export default {
   margin: 0px;
   font-size: 20px;
   font-family: helvetica;
+}
+@media (max-width: 975px) {
 }
 </style>

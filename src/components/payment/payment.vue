@@ -84,10 +84,12 @@ export default {
       totalAmount: "",
     };
   },
-  mounted() {
+  created() {
     const local_storage = JSON.parse(localStorage.getItem("store"));
     this.cart = local_storage.cart.checkoutItems;
     this.getTotalAmount();
+  },
+  mounted() {
     this.stripe = Stripe(process.env.VUE_APP_PUBLIC_KEY);
     this.elements = this.stripe.elements();
     const elements = this.elements.create("card");
@@ -144,6 +146,7 @@ export default {
       }
     },
     getTotalAmount() {
+      debugger;
       let total = 0;
       for (let i = 0; i < this.cart.length; i++) {
         total += this.cart[i].price;

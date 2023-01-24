@@ -171,4 +171,16 @@ export default {
 .forms {
   margin: 0px;
 }
+@media (max-width: 678px) {
+  .buttonContainer {
+    width: 40%;
+    height: 11%;
+    border-radius: 9px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 3%;
+    overflow: hidden;
+  }
+}
 </style>

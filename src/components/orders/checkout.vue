@@ -323,7 +323,7 @@ export default {
   background: #ffde3ade;
 }
 .remove {
-  width: 10%;
+  width: 7%;
 }
 .removeIcon {
   width: 100%;
