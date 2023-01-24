@@ -15,7 +15,6 @@
             <h2 class="info">{{ cartItem.price }}</h2>
             <div class="btns">
               <div class="value">{{ cartItem.quantity + " " + "qty" }}</div>
-              <button @click="remove()">remove</button>
             </div>
           </div>
         </div>
@@ -28,10 +27,15 @@
       </div>
       <div class="checkout">
         <div class="checkBtn">
-          <button class="btn">make payment</button>
+          <button class="btn" @click="payment">make payment</button>
         </div>
         <div class="amount">
-          <h6 class="totalAmount">amount</h6>
+          <h6 class="totalAmount"><img
+              src="../../assets/rupee.png"
+              alt="rupee"
+              class="rupeeIcon"
+            />{{ totalAmount }}</span
+          ></h6>
         </div>
       </div>
     </div>
@@ -41,10 +45,25 @@
 export default {
   props: { address: String, cartItems: Array },
   data() {
-    return {};
+    return {
+      totalAmount: "",
+    };
   },
   created() {
     console.log("printing cart", this.cartItems);
+    this.getTotalAmount();
+  },
+  methods: {
+    getTotalAmount() {
+      let total = 0;
+      for (let i = 0; i < this.cartItems.length; i++) {
+        total += this.cartItems[i].price;
+      }
+      this.totalAmount += total;
+    },
+    payment(){
+     this.$router.push({path:"/payment/"});
+    }
   },
 };
 </script>
@@ -167,6 +186,7 @@ export default {
 .checkout {
   border: 1px solid;
   width: 70%;
+  height: 13%;
   border-radius: 5px;
   display: flex;
   align-items: center;
@@ -186,7 +206,7 @@ export default {
   width: 100%;
   height: 100%;
   font-size: 20px;
-  font-family: helvetica;
+  font-family: Helvetica;
 }
 .btn:active {
   background: #ffde3ade;
@@ -194,15 +214,28 @@ export default {
 .amount {
   width: 22%;
   border: 1px solid;
-  height: 55%;
+  height: 44%;
   border-radius: 5px;
   background: whitesmoke;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.totalAmount {
+.rupeeIcon{
+display: flex;
+  justify-content: center;
   font-size: 15px;
-  font-family: helvetica;
+  align-items: center;
+ width:   23%;
+    }
+.totalAmount {
+font-size: 15px;
+font-family: helvetica;
+display: flex;
+justify-content: center;
+align-items: center;
 }
+
+
+
 </style>

@@ -51,7 +51,6 @@ export default {
       this.newAdd = true;
     },
     async save() {
-      debugger;
       this.newAdd = false;
       let username = this.username;
       let post = { address: this.newAddress };
@@ -65,7 +64,6 @@ export default {
       this.$emit("showComponent", true);
     },
     getUserAddress() {
-      debugger;
       let user = JSON.parse(localStorage.getItem("store"));
       this.users = user.signup.usersAddress;
       this.username = user.signup.username;

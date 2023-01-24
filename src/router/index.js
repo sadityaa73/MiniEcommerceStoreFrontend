@@ -8,8 +8,9 @@ import adminstrator from "../components/Admin/adminstrator.vue";
 import addProducts from "../components/Admin/addProducts.vue";
 import viewProduct from "../components/productPage/viewProduct.vue";
 import cart from "../components/cart/cart.vue";
-import order from "../components/orders/order.vue"
-import checkout from "../components/orders/checkout.vue"
+import order from "../components/orders/order.vue";
+import checkout from "../components/orders/checkout.vue";
+import payment from "../components/payment/payment.vue";
 Vue.use(VueRouter)
 
 const routes = [{
@@ -72,6 +73,11 @@ const routes = [{
         name: 'checkout',
         component: checkout
     },
+    {
+        path: `/payment`,
+        name: 'payment',
+        component: payment
+    }
 
 ]
 

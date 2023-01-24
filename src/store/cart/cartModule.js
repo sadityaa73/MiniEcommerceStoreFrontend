@@ -4,6 +4,14 @@ export default {
         checkoutItems: []
     },
     getters: {},
-    mutations: {},
-    actions: {}
+    mutations: {
+        loadCartItems(state, payload) {
+            state.checkoutItems = payload;
+        }
+    },
+    actions: {
+        getCheckoutItems(context, payload) {
+            context.commit("loadCartItems", payload);
+        }
+    }
 }

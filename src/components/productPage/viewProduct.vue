@@ -248,6 +248,7 @@ export default {
     async getCart() {
       let response = await axios.get("http://localhost:4000/api/cart/cart");
       this.cart = response.data;
+      this.$store.dispatch("getCheckoutItems", this.cart);
     },
     async remove(product_id) {
       let post = { _id: product_id };
