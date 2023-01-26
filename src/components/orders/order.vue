@@ -26,12 +26,8 @@
             <img :src="cart.image" alt="" class="image" />
           </div>
           <div class="cartProductInfo">
-            <h2 class="info">{{ cart.name }}</h2>
+            <h2 class="info">{{ cart.product }}</h2>
             <h2 class="info">{{ cart.price }}</h2>
-            <div class="btns">
-              <button @click="remove(cart._id)">remove</button>
-              <button>place order</button>
-            </div>
           </div>
         </div>
       </div>
@@ -96,7 +92,9 @@ export default {
       this.getCart();
     },
     async getCart() {
-      let response = await axios.get("http://localhost:4000/api/cart/cart");
+      let response = await axios.get(
+        "http://localhost:4000/api/placeOrder/placeOrder"
+      );
       this.cart = response.data;
       console.log("printing cart details", this.cart);
     },

@@ -57,7 +57,7 @@
       </div>
       <div class="btn-container">
         <button class="btn" @click="submit">
-          {{ "Pay" + " " + totalAmount }}
+          {{ "Pay" + " " + displayAmount }}
         </button>
       </div>
     </div>
@@ -81,15 +81,18 @@ export default {
       address: "",
       zip: "",
       cart: [],
+      displayAmount: "",
       totalAmount: "",
     };
   },
   created() {
     const local_storage = JSON.parse(localStorage.getItem("store"));
+    console.log("printing loaclStorage", local_storage);
     this.cart = local_storage.cart.checkoutItems;
     this.getTotalAmount();
   },
   mounted() {
+    debugger;
     this.stripe = Stripe(process.env.VUE_APP_PUBLIC_KEY);
     this.elements = this.stripe.elements();
     const elements = this.elements.create("card");
@@ -136,9 +139,10 @@ export default {
           }
         );
         if (confirmpayment) {
+          this.orderPlaced();
           //creating sucess route
           this.$router.push({
-            path: "/",
+            path: "/order",
           });
         }
       } catch (err) {
@@ -151,7 +155,25 @@ export default {
       for (let i = 0; i < this.cart.length; i++) {
         total += this.cart[i].price;
       }
-      this.totalAmount = total;
+      this.displayAmount = total;
+      this.totalAmount = Math.round(total.toFixed(2) * 100);
+      // this.displayAmount = Number.parseFloat(this.totalAmount);
+      console.log("printing amount ", typeof this.totalAmount);
+    },
+    async orderPlaced() {
+      let post = {};
+      for (let i = 0; i < this.cart.length; i++) {
+        post = {
+          image: this.cart[i].image,
+          product: this.cart[i].name,
+          quantity: this.cart[i].quantity,
+          price: this.cart[i].price,
+        };
+        let response = await axios.post(
+          "http://localhost:4000/api/placeOrder/placeOrder",
+          post
+        );
+      }
     },
   },
 };
