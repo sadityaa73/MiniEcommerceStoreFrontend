@@ -12,9 +12,14 @@
         />
       </div>
       <div class="search">
-        <input type="search" placeholder="search" class="searchInput" />
+        <input
+          type="search"
+          placeholder="search"
+          class="searchInput"
+          v-model="searchText"
+        />
       </div>
-      <div class="searchImage">
+      <div class="searchImage" @click="search">
         <img src="../../assets/search.png" alt="search" class="searchIcon" />
       </div>
     </div>
@@ -48,6 +53,7 @@
   </div>
 </template>
 <script>
+import axios from "axios";
 export default {
   name: "Header",
   components: {},
@@ -55,6 +61,8 @@ export default {
     return {
       active: false,
       logStatus: false,
+      searchText: "",
+      searchResponse: [],
     };
   },
   created() {
@@ -65,6 +73,16 @@ export default {
       let loaclStorage = JSON.parse(localStorage.getItem("store"));
       this.logStatus = loaclStorage.login.loginStatus;
       console.log("log status", this.logStatus);
+    },
+    async search() {
+      let post = { searchText: this.searchText };
+      let response = await axios.post(
+        "http://localhost:4000/api/search/search",
+        post
+      );
+      this.searchResponse = response.data;
+      this.$store.dispatch("getSearchResponse", this.searchResponse);
+      console.log("searched response ", this.searchResponse);
     },
     dropdown() {
       this.active = !this.active;

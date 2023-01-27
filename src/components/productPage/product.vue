@@ -3,6 +3,7 @@
     <div class="banners">
       <img src="../../assets/banner1.jpg" alt="" class="ban" />
     </div>
+
     <div class="OcassionalDeals">
       <div
         class="deals"
@@ -109,11 +110,13 @@ export default {
       homeDeals: [],
       groceryDeals: [],
       studyDeals: [],
+      searchResult: "",
     };
   },
   computed: { ...mapGetters(["getStatus"]) },
   created() {
     this.getProducts();
+    this.getsearchResult();
   },
   methods: {
     async getProducts() {
@@ -141,6 +144,11 @@ export default {
     viewProduct(id) {
       console.log(`printing id ${id}`);
       this.$router.push({ path: `/viewProduct/${id}` });
+    },
+    getsearchResult() {
+      let storage = JSON.parse(localStorage.getItem("store"));
+      this.searchResult = storage.search.searchResponse;
+      console.log("localStorage", this.searchResult);
     },
   },
 };
@@ -184,6 +192,15 @@ span {
   width: 10%;
 }
 .OcassionalDeals {
+  width: 100%;
+  height: 35%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+.searchDeals {
   width: 100%;
   height: 35%;
   display: flex;
