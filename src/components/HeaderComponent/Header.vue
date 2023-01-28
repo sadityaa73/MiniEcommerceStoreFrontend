@@ -18,9 +18,16 @@
           class="searchInput"
           v-model="searchText"
         />
-      </div>
-      <div class="searchImage" @click="search">
-        <img src="../../assets/search.png" alt="search" class="searchIcon" />
+        <div class="searchResponse" v-if="searchResult.length > 0 && text != 0">
+          <ul
+            class="serachResult"
+            v-for="(response, index) in searchResponse"
+            :key="index"
+          >
+            <li>{{ response.name }}</li>
+            <hr />
+          </ul>
+        </div>
       </div>
     </div>
     <div class="items3" @click="dropdown">
@@ -62,27 +69,30 @@ export default {
       active: false,
       logStatus: false,
       searchText: "",
-      searchResponse: [],
+      searchResult: "",
+      text: "",
+      searchResponse: "",
     };
+  },
+  watch: {
+    searchText(newVal, oldVal) {
+      this.text = newVal;
+      this.getResultByFilter(this.searchResult);
+    },
   },
   created() {
     this.getDataFromLocalStorage();
+    this.loadAllProductToTheStore();
   },
   methods: {
     getDataFromLocalStorage() {
       let loaclStorage = JSON.parse(localStorage.getItem("store"));
       this.logStatus = loaclStorage.login.loginStatus;
-      console.log("log status", this.logStatus);
     },
-    async search() {
-      let post = { searchText: this.searchText };
-      let response = await axios.post(
-        "http://localhost:4000/api/search/search",
-        post
-      );
-      this.searchResponse = response.data;
-      this.$store.dispatch("getSearchResponse", this.searchResponse);
-      console.log("searched response ", this.searchResponse);
+    loadAllProductToTheStore() {
+      this.$store.dispatch("getAllProducts");
+      let getAllProducts = JSON.parse(localStorage.getItem("store"));
+      this.searchResult = getAllProducts.product.allProducts;
     },
     dropdown() {
       this.active = !this.active;
@@ -117,6 +127,10 @@ export default {
       this.$router.push({
         path: "/order",
       });
+    },
+    getResultByFilter(array) {
+      let result = array.filter((array) => array.name.includes(this.text));
+      this.searchResponse = result;
     },
   },
 };
@@ -157,6 +171,38 @@ export default {
   width: 100%;
   height: 100%;
   border: none;
+}
+.searchResponse {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  border: none;
+  height: auto;
+  max-height: 295px;
+  width: 37%;
+  margin-top: 1%;
+  background: #f5f5f5b5;
+  border-radius: 3px;
+  box-shadow: 0px 0px 10px 0px grey;
+  overflow: auto;
+}
+.serachResult {
+  list-style: none;
+  padding: 0px;
+  margin: 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 95%;
+  font-size: 20px;
+  font-family: helvetica;
+}
+hr {
+  border: 1px solid;
+  width: 100%;
 }
 .searchIcon {
   width: 80%;

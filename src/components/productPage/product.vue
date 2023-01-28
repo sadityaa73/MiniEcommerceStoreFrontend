@@ -110,13 +110,13 @@ export default {
       homeDeals: [],
       groceryDeals: [],
       studyDeals: [],
+      allProducts: [],
       searchResult: "",
     };
   },
   computed: { ...mapGetters(["getStatus"]) },
   created() {
     this.getProducts();
-    this.getsearchResult();
   },
   methods: {
     async getProducts() {
@@ -142,13 +142,7 @@ export default {
       this.studyDeals = fourthResponse.data;
     },
     viewProduct(id) {
-      console.log(`printing id ${id}`);
       this.$router.push({ path: `/viewProduct/${id}` });
-    },
-    getsearchResult() {
-      let storage = JSON.parse(localStorage.getItem("store"));
-      this.searchResult = storage.search.searchResponse;
-      console.log("localStorage", this.searchResult);
     },
   },
 };
