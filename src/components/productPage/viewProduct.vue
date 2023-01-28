@@ -110,7 +110,7 @@
         class="OcassionalDeals"
         v-for="(otherProducts, index) in otherProduct"
         :key="index"
-        @click="viewProducts(otherProducts._id)"
+        @click="viewProducts(otherProducts.name)"
       >
         <div class="deals">
           <div class="productImg">
@@ -191,9 +191,9 @@ export default {
       }
     },
     async getProductInfo() {
-      let product_id = this.$route.params.id;
+      let product_name = this.$route.params.name;
       let response = await axios.get(
-        `http://localhost:4000/api/product/products/${product_id}`
+        `http://localhost:4000/api/product/products/${product_name}`
       );
       this.viewProduct = response.data;
       console.log("printing viewProductDeatil", this.viewProduct);

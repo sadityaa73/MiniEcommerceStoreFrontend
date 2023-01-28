@@ -49,7 +49,7 @@ const routes = [{
         component: addProducts
     },
     {
-        path: `/viewProduct/:id`,
+        path: `/viewProduct/:name`,
         name: 'viewProduct',
         component: viewProduct
     },

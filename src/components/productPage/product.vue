@@ -9,7 +9,7 @@
         class="deals"
         v-for="(OcassionalDeals, index) in OcassionalDeals"
         :key="index"
-        @click="viewProduct(OcassionalDeals._id)"
+        @click="viewProduct(OcassionalDeals.name)"
       >
         <div class="productImg">
           <img :src="OcassionalDeals.image" alt="product" class="product" />
@@ -32,7 +32,7 @@
         class="deals"
         v-for="(homeDeals, index) in homeDeals"
         :key="index"
-        @click="viewProduct(homeDeals._id)"
+        @click="viewProduct(homeDeals.name)"
       >
         <div class="productImg">
           <img :src="homeDeals.image" alt="product" class="product" />
@@ -55,7 +55,7 @@
         class="deals"
         v-for="(groceryDeals, index) in groceryDeals"
         :key="index"
-        @click="viewProduct(groceryDeals._id)"
+        @click="viewProduct(groceryDeals.name)"
       >
         <div class="productImg">
           <img :src="groceryDeals.image" alt="product" class="product" />
@@ -78,7 +78,7 @@
         class="deals"
         v-for="(studyDeals, index) in studyDeals"
         :key="index"
-        @click="viewProduct(studyDeals._id)"
+        @click="viewProduct(studyDeals.name)"
       >
         <div class="productImg">
           <img :src="studyDeals.image" alt="product" class="product" />
@@ -141,8 +141,8 @@ export default {
       );
       this.studyDeals = fourthResponse.data;
     },
-    viewProduct(id) {
-      this.$router.push({ path: `/viewProduct/${id}` });
+    viewProduct(name) {
+      this.$router.push({ path: `/viewProduct/${name}` });
     },
   },
 };

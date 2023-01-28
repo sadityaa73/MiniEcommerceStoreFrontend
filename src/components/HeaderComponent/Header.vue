@@ -23,6 +23,7 @@
             class="serachResult"
             v-for="(response, index) in searchResponse"
             :key="index"
+            @click="viewProduct(response.name)"
           >
             <li>{{ response.name }}</li>
             <hr />
@@ -93,6 +94,9 @@ export default {
       this.$store.dispatch("getAllProducts");
       let getAllProducts = JSON.parse(localStorage.getItem("store"));
       this.searchResult = getAllProducts.product.allProducts;
+    },
+    viewProduct(name) {
+      this.$router.push({ path: `/viewProduct/${name}` });
     },
     dropdown() {
       this.active = !this.active;
